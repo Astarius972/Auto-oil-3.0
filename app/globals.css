@@ -128,3 +128,21 @@
     @apply font-sans;
   }
 }
+
+.product-price-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 28px;
+  border-radius: 4px;
+  background: #e11d48;
+  cursor: pointer;
+}
+
+.product-price-slider::-moz-range-thumb {
+  width: 14px;
+  height: 28px;
+  border: none;
+  border-radius: 4px;
+  background: #e11d48;
+  cursor: pointer;
+}

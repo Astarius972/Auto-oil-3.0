@@ -1,55 +1,75 @@
 import Image from "next/image";
 import { Heart, ShoppingCart } from "lucide-react";
+import { formatPrice } from "./product-data";
 
-type ProductCardProps = {
+export interface ProductCardProps {
   name: string;
   imageUrl: string;
+  price?: number;
+  brand?: string;
+  cartQuantity?: number;
   onAddToCart?: () => void;
   onFavorite?: () => void;
-};
+}
 
 export default function ProductCard({
   name,
   imageUrl,
+  price,
+  brand,
+  cartQuantity = 0,
   onAddToCart,
   onFavorite,
 }: ProductCardProps) {
   return (
-    <div className="w-[260px] overflow-hidden rounded border border-slate-200 bg-white">
-      {/* Image */}
-      <div className="bg-slate-100 p-6">
+    <article className="flex h-full w-full flex-col overflow-hidden border border-slate-200 bg-white">
+      <div className="flex min-h-[220px] items-center justify-center bg-slate-100 p-6">
         <Image
           src={imageUrl}
           alt={name}
           width={300}
           height={300}
-          className="mx-auto h-[220px] w-auto object-contain transition-transform duration-300 hover:scale-105"
+          className="mx-auto h-[180px] w-auto object-contain transition-transform duration-300 hover:scale-105"
         />
       </div>
 
-      {/* Content */}
-      <div className="p-4">
-        <h3 className="min-h-[60px] text-lg font-semibold text-slate-800">
+      <div className="flex flex-1 flex-col p-4">
+        {brand ? (
+          <p className="mb-1 text-xs font-medium uppercase tracking-wide text-slate-500">
+            {brand}
+          </p>
+        ) : null}
+        <h3 className="min-h-[56px] text-base font-bold leading-snug text-slate-900">
           {name}
         </h3>
+        {price !== undefined ? (
+          <p className="mt-2 text-sm font-semibold text-[#0d4a8f]">
+            {formatPrice(price)}
+          </p>
+        ) : null}
 
         <div className="mt-4 flex gap-2">
           <button
+            type="button"
             onClick={onAddToCart}
-            className="flex flex-1 items-center justify-center gap-2 rounded border px-4 py-2 hover:bg-slate-50"
+            className="flex flex-1 items-center justify-center gap-2 border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 transition-colors hover:bg-slate-50"
           >
             <ShoppingCart size={16} />
-            Сагсанд нэмэх
+            {cartQuantity > 0
+              ? `Сагсанд (${cartQuantity})`
+              : "Сагсанд нэмэх"}
           </button>
 
           <button
+            type="button"
             onClick={onFavorite}
-            className="rounded border px-3 py-2 hover:bg-slate-50"
+            className="border border-slate-300 bg-white px-3 py-2 text-slate-800 transition-colors hover:bg-slate-50"
+            aria-label="Дуртай жагсаалтад нэмэх"
           >
             <Heart size={16} />
           </button>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

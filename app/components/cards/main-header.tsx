@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AutoOilLogo } from "../icons";
+import { CartNavButton } from "./cart-nav-button";
 import { HEADER_NAV_LINKS, headerStyles } from "./header-navigation-data";
 
 export function MainHeader() {
@@ -20,6 +21,7 @@ export function MainHeader() {
             </Link>
           ))}
         </nav>
+        <CartNavButton />
       </div>
     </header>
   );

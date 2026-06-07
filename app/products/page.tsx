@@ -1,21 +1,15 @@
 import { MainHeader } from "../components/cards/main-header";
+import { ProductsCatalog } from "../components/cards/products-catalog";
 import { TopBar } from "../components/cards/top-bar";
-import Sidebar from "../components/sidebar";
 import Footer from "../components/footer";
-import CategoryRightSide from "../components/cards/category-right-side";
+
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen  text-slate-200 font-sans antialiased selection:bg-blue-500/30">
+    <div className="min-h-screen bg-white font-sans text-slate-800 antialiased selection:bg-blue-500/30">
       <TopBar />
       <MainHeader />
-      <div className="max-w-7xl mx-auto p-4 md:p-8 flex flex-col md:flex-row gap-8">
-        <Sidebar />
-        <main className="w-full md:w-3/4 border-8 p-6">
-          <h1 className="text-xl font-bold border-b text-black border-slate-300 pb-4 mb-6">
-            Бараа бүтээгдэхүүн
-          </h1>
-        </main>
-        <CategoryRightSide />
+      <div className="mx-auto max-w-7xl p-4 md:p-8">
+        <ProductsCatalog />
       </div>
       <Footer />
     </div>

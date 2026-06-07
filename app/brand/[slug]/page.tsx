@@ -6,8 +6,6 @@ import { TopBar } from "../../components/cards/top-bar";
 import { BRANDS, getBrandBySlug } from "../../components/cards/brand-data";
 import { BrandGallery } from "../../components/cards/brand-gallery";
 import { ScribdEmbed } from "../../components/cards/scribd-embed";
-import Sidebar from "../../components/sidebar";
-
 type BrandDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
@@ -28,9 +26,8 @@ export default async function BrandDetailPage({ params }: BrandDetailPageProps) 
     <div className="min-h-screen text-slate-200 font-sans antialiased selection:bg-blue-500/30">
       <TopBar />
       <MainHeader />
-      <div className="max-w-7xl mx-auto p-4 md:p-8 flex flex-col md:flex-row gap-8">
-        <Sidebar />
-        <main className="w-full md:w-3/4 border-8 p-6">
+      <div className="max-w-7xl mx-auto p-4 md:p-8">
+        <main className="w-full border-8 p-6">
           <Link
             href="/brand"
             className="mb-4 inline-block text-sm text-blue-600 hover:text-blue-800"
