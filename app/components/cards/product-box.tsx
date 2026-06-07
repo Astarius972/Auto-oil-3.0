@@ -1,8 +1,10 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Heart, ShoppingCart } from "lucide-react";
 import { formatPrice } from "./product-data";
 
 export interface ProductCardProps {
+  id: string;
   name: string;
   imageUrl: string;
   price?: number;
@@ -13,6 +15,7 @@ export interface ProductCardProps {
 }
 
 export default function ProductCard({
+  id,
   name,
   imageUrl,
   price,
@@ -23,7 +26,10 @@ export default function ProductCard({
 }: ProductCardProps) {
   return (
     <article className="flex h-full w-full flex-col overflow-hidden border border-slate-200 bg-white">
-      <div className="flex min-h-[220px] items-center justify-center bg-slate-100 p-6">
+      <Link
+        href={`/products/${id}`}
+        className="flex min-h-[220px] items-center justify-center bg-slate-100 p-6"
+      >
         <Image
           src={imageUrl}
           alt={name}
@@ -31,7 +37,7 @@ export default function ProductCard({
           height={300}
           className="mx-auto h-[180px] w-auto object-contain transition-transform duration-300 hover:scale-105"
         />
-      </div>
+      </Link>
 
       <div className="flex flex-1 flex-col p-4">
         {brand ? (
@@ -39,9 +45,11 @@ export default function ProductCard({
             {brand}
           </p>
         ) : null}
-        <h3 className="min-h-[56px] text-base font-bold leading-snug text-slate-900">
-          {name}
-        </h3>
+        <Link href={`/products/${id}`}>
+          <h3 className="min-h-[56px] text-base font-bold leading-snug text-slate-900 transition-colors hover:text-[#0d4a8f]">
+            {name}
+          </h3>
+        </Link>
         {price !== undefined ? (
           <p className="mt-2 text-sm font-semibold text-[#0d4a8f]">
             {formatPrice(price)}

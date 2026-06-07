@@ -28,6 +28,7 @@ interface CartContextValue {
   totalPrice: number;
   isHydrated: boolean;
   addToCart: (product: Product) => void;
+  addToCartWithQuantity: (product: Product, quantity: number) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
@@ -84,33 +85,47 @@ export function CartProvider({ children }: { children: ReactNode }) {
     writeStoredCart(items);
   }, [items, isHydrated]);
 
-  const addToCart = useCallback((product: Product) => {
-    setItems((currentItems) => {
-      const existingItem = currentItems.find(
-        (item) => item.productId === product.id,
-      );
-
-      if (existingItem) {
-        return currentItems.map((item) =>
-          item.productId === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item,
-        );
+  const addToCartWithQuantity = useCallback(
+    (product: Product, quantity: number) => {
+      if (quantity <= 0) {
+        return;
       }
 
-      return [
-        ...currentItems,
-        {
-          productId: product.id,
-          name: product.name,
-          brand: product.brand,
-          price: product.price,
-          imageUrl: product.imageUrl,
-          quantity: 1,
-        },
-      ];
-    });
-  }, []);
+      setItems((currentItems) => {
+        const existingItem = currentItems.find(
+          (item) => item.productId === product.id,
+        );
+
+        if (existingItem) {
+          return currentItems.map((item) =>
+            item.productId === product.id
+              ? { ...item, quantity: item.quantity + quantity }
+              : item,
+          );
+        }
+
+        return [
+          ...currentItems,
+          {
+            productId: product.id,
+            name: product.name,
+            brand: product.brand,
+            price: product.price,
+            imageUrl: product.imageUrl,
+            quantity,
+          },
+        ];
+      });
+    },
+    [],
+  );
+
+  const addToCart = useCallback(
+    (product: Product) => {
+      addToCartWithQuantity(product, 1);
+    },
+    [addToCartWithQuantity],
+  );
 
   const removeFromCart = useCallback((productId: string) => {
     setItems((currentItems) =>
@@ -154,6 +169,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       totalPrice,
       isHydrated,
       addToCart,
+      addToCartWithQuantity,
       removeFromCart,
       updateQuantity,
       clearCart,
@@ -164,6 +180,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       totalPrice,
       isHydrated,
       addToCart,
+      addToCartWithQuantity,
       removeFromCart,
       updateQuantity,
       clearCart,
