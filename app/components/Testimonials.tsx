@@ -38,48 +38,67 @@ export const CircularTestimonialsDemo = () => {
   const activeItem = testimonials[activeIndex];
 
   return (
-    <section className="col-span-12 w-full h-full min-h-[calc(100vh-140px)] relative">
+    <section className="relative col-span-12 h-full min-h-[calc(100vh-140px)] w-full overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={activeIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 w-full h-full"
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="absolute inset-0 h-full w-full"
         >
           <img
             src={activeItem.src}
-            className="w-full h-full object-cover"
+            className="h-full w-full object-cover"
             alt={activeItem.name}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
 
-          <div className="absolute bottom-[28%] left-6 sm:left-10 z-10 max-w-lg drop-shadow-lg">
-            <p className="text-xs sm:text-sm font-medium uppercase tracking-[0.18em] text-white/60 mb-2">
+          <div className="absolute bottom-[26%] left-6 z-10 max-w-xl drop-shadow-lg sm:left-10">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/70 sm:text-sm">
               {activeItem.designation}
             </p>
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white leading-tight tracking-tight">
+            <h3 className="text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:text-5xl">
               {activeItem.name}
             </h3>
           </div>
         </motion.div>
       </AnimatePresence>
 
-      <div className="absolute top-1/2 w-full flex justify-between px-8 z-20">
+      {/* Prev / Next controls */}
+      <div className="absolute top-1/2 z-20 flex w-full -translate-y-1/2 justify-between px-4 sm:px-8">
         <button
           onClick={() => paginate(-1)}
-          className="p-6 bg-[#0582CA] rounded-full text-[#f7f7ff]"
-          aria-label="Previous"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all hover:scale-105 hover:bg-white/20 sm:h-12 sm:w-12"
+          aria-label="Өмнөх зураг"
         >
           <FaArrowLeft />
         </button>
         <button
           onClick={() => paginate(1)}
-          className="p-6 bg-[#0582CA] rounded-full text-[#f7f7ff]"
-          aria-label="Next"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all hover:scale-105 hover:bg-white/20 sm:h-12 sm:w-12"
+          aria-label="Дараагийн зураг"
         >
           <FaArrowRight />
         </button>
+      </div>
+
+      {/* Slide indicators */}
+      <div className="absolute bottom-[18%] left-6 z-20 flex items-center gap-2 sm:left-10">
+        {testimonials.map((item, index) => (
+          <button
+            key={item.src}
+            onClick={() => setActiveIndex(index)}
+            aria-label={`${index + 1}-р зураг`}
+            aria-current={index === activeIndex}
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              index === activeIndex
+                ? "w-8 bg-white"
+                : "w-3 bg-white/40 hover:bg-white/70"
+            }`}
+          />
+        ))}
       </div>
     </section>
   );

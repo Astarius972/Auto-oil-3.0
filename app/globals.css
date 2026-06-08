@@ -117,32 +117,134 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+@theme inline {
+  --color-brand: #2248b3;
+  --color-brand-dark: #0d4a8f;
+  --color-brand-deep: #0a3d75;
+  --color-brand-accent: #e11d48;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
   html {
-    @apply font-sans;
+    @apply font-sans scroll-smooth;
   }
+
+  /* Accessible focus state for all interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  /* Standard content container */
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Page section title */
+  .page-title {
+    @apply text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl;
+  }
+
+  .page-eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-brand-dark;
+  }
+
+  /* Surface card */
+  .app-card {
+    @apply rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300;
+  }
+
+  .app-card-hover {
+    @apply hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lg;
+  }
+
+  /* Buttons */
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all duration-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply bg-brand text-white shadow-sm hover:bg-brand-deep hover:shadow-md;
+  }
+
+  .btn-secondary {
+    @apply border border-slate-300 bg-white text-slate-800 hover:border-slate-400 hover:bg-slate-50;
+  }
+
+  .btn-ghost {
+    @apply text-brand-dark hover:bg-brand-dark/5;
+  }
+
+  /* Form field */
+  .field {
+    @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 transition-colors focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20;
+  }
+}
+
+.product-price-slider {
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .product-price-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
   appearance: none;
-  width: 14px;
-  height: 28px;
-  border-radius: 4px;
-  background: #e11d48;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--color-brand-accent);
+  border: 3px solid #fff;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.3);
   cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.product-price-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
 }
 
 .product-price-slider::-moz-range-thumb {
-  width: 14px;
-  height: 28px;
-  border: none;
-  border-radius: 4px;
-  background: #e11d48;
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: var(--color-brand-accent);
+  border: 3px solid #fff;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.3);
   cursor: pointer;
+}
+
+/* Subtle entrance animation for cards/sections */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out both;
 }

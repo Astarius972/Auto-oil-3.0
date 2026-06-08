@@ -1,17 +1,20 @@
-import { MainHeader } from "../components/cards/main-header";
+import { PageHeader } from "../components/layout/page-header";
+import { PageShell } from "../components/layout/page-shell";
 import { ProductsCatalog } from "../components/cards/products-catalog";
-import { TopBar } from "../components/cards/top-bar";
-import Footer from "../components/footer";
+
+export const metadata = {
+  title: "Бараа бүтээгдэхүүн",
+};
 
 export default function ProductsPage() {
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-800 antialiased selection:bg-blue-500/30">
-      <TopBar />
-      <MainHeader />
-      <div className="mx-auto max-w-7xl p-4 md:p-8">
-        <ProductsCatalog />
-      </div>
-      <Footer />
-    </div>
+    <PageShell>
+      <PageHeader
+        eyebrow="Дэлгүүр"
+        title="Бараа бүтээгдэхүүн"
+        description="Дэлхийн тэргүүлэгч брэндүүдийн тос, тосолгооны материал, автохими болон сэлбэгийг ангилал, брэнд, үнээр шүүж сонгоно уу."
+      />
+      <ProductsCatalog />
+    </PageShell>
   );
 }

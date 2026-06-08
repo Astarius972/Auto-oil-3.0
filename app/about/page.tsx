@@ -1,24 +1,25 @@
-import React from "react";
-import { ChevronDown } from "lucide-react";
-import { MainHeader } from "../components/cards/main-header";
-import { TopBar } from "../components/cards/top-bar";
-import Link from "next/link";
-import Footer from "../components/footer";
+import { PageShell } from "../components/layout/page-shell";
+import { PageHeader } from "../components/layout/page-header";
+
+export const metadata = {
+  title: "Бидний тухай",
+};
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white text-slate-200 font-sans antialiased selection:bg-blue-500/30">
-      <TopBar />
-      <MainHeader />
-      <div className="max-w-7xl mx-auto p-4 md:p-8">
-        <main className="w-full border-8 p-6">
-          <h1 className="text-xl font-bold border-b text-black border-slate-300 pb-4 mb-6">
-            Компаний танилцуулга
-          </h1>
-          <article className="prose max-w-none leading-relaxed text-black">
-            <h3 className="font-bold text-black mb-4">Захирлын мэндчилгээ</h3>
+    <PageShell>
+      <PageHeader
+        eyebrow="Бидний тухай"
+        title="Компаний танилцуулга"
+        description="2001 оноос хойшхи аяллаа, үнэт зүйлс, алсын хараагаа танд хүргэж байна."
+      />
+      <div className="mx-auto max-w-4xl">
+        <article className="app-card p-6 sm:p-8 leading-relaxed text-slate-700">
+          <h3 className="mb-4 text-lg font-bold text-slate-900">
+            Захирлын мэндчилгээ
+          </h3>
 
-            <div className="flex flex-col text-black gap-4">
+          <div className="flex flex-col gap-4">
               <div>
                 "Авто Ойл" ХХК-ийн хамт олнохоо өмнөөс Танд энэ өдрийн амар
                 амгаланг эрж, ажил үйлст тань амжилт хүсье. Манай "Авто Ойл" ХХК
@@ -98,39 +99,43 @@ export default function AboutPage() {
             </div>
           </article>
 
-          <div className="mt-8">
+          <div className="app-card mt-6 overflow-hidden p-2">
             <img
               src="/Time_line.jpg"
               alt="Auto Oil Time Line"
-              className="w-full h-auto"
+              className="h-auto w-full rounded-xl"
             />
           </div>
-          <div className="mt-8 flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4">
-            <div className="flex-none w-[300px] snap-center">
-              <img
-                src="/urgumjlil-3.jpg"
-                alt="Auto Oil Urgumjilil 3"
-                className="w-full h-auto rounded-lg shadow-md"
-              />
-            </div>
-            <div className="flex-none w-[300px] snap-center">
-              <img
-                src="/urgumjlul-2.jpg"
-                alt="Auto Oil Urgumjilil 4"
-                className="w-full h-auto rounded-lg shadow-md"
-              />
-            </div>
-            <div className="flex-none w-[300px] snap-center">
-              <img
-                src="/urgumjlol.jpg"
-                alt="Auto Oil Urgumjilil 5"
-                className="w-full h-auto rounded-lg shadow-md"
-              />
+
+          <div className="mt-6">
+            <h3 className="mb-4 text-lg font-bold text-slate-900">
+              Гэрчилгээ, өргөмжлөл
+            </h3>
+            <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4">
+              <div className="w-[300px] flex-none snap-center">
+                <img
+                  src="/urgumjlil-3.jpg"
+                  alt="Auto Oil Urgumjilil 3"
+                  className="h-auto w-full rounded-xl border border-slate-200 shadow-sm"
+                />
+              </div>
+              <div className="w-[300px] flex-none snap-center">
+                <img
+                  src="/urgumjlul-2.jpg"
+                  alt="Auto Oil Urgumjilil 4"
+                  className="h-auto w-full rounded-xl border border-slate-200 shadow-sm"
+                />
+              </div>
+              <div className="w-[300px] flex-none snap-center">
+                <img
+                  src="/urgumjlol.jpg"
+                  alt="Auto Oil Urgumjilil 5"
+                  className="h-auto w-full rounded-xl border border-slate-200 shadow-sm"
+                />
+              </div>
             </div>
           </div>
-        </main>
       </div>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

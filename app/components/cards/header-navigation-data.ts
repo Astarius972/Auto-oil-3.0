@@ -14,8 +14,11 @@ export const HEADER_NAV_LINKS: HeaderNavLink[] = [
 ];
 
 export const headerStyles = {
-  header: "w-full bg-[#2248b3] shadow-md",
-  container: "max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4",
-  nav: "hidden lg:flex items-center gap-6 text-[13px] font-semibold tracking-wide text-white/80",
-  link: "hover:text-white transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-white hover:after:w-full after:transition-all",
+  header:
+    "sticky top-10 z-40 w-full border-b border-white/10 bg-[#2248b3]/95 shadow-md backdrop-blur supports-[backdrop-filter]:bg-[#2248b3]/90",
+  container:
+    "container-page flex items-center justify-between gap-4 py-3.5",
+  nav: "hidden items-center gap-1 lg:flex",
+  link: "relative rounded-lg px-3 py-2 text-[13px] font-semibold tracking-wide text-white/80 transition-colors hover:bg-white/10 hover:text-white",
+  linkActive: "bg-white/15 text-white",
 };

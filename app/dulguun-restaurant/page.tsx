@@ -1,6 +1,8 @@
-import { MainHeader } from "../components/cards/main-header";
-import { TopBar } from "../components/cards/top-bar";
-import Footer from "../components/footer";
+import { PageShell } from "../components/layout/page-shell";
+
+export const metadata = {
+  title: "Дөлгөөн ресторан",
+};
 
 const RestaurantSection = ({
   title,
@@ -11,16 +13,18 @@ const RestaurantSection = ({
   description: string;
   events: string[];
 }) => (
-  <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
-    <h2 className="mb-3 text-2xl font-bold text-gray-900">{title}</h2>
-    <p className="mb-6 leading-relaxed text-gray-600">{description}</p>
-    <h3 className="mb-3 font-semibold text-gray-800">
+  <div className="app-card app-card-hover p-6 sm:p-8">
+    <h2 className="mb-3 text-xl font-bold text-slate-900 sm:text-2xl">
+      {title}
+    </h2>
+    <p className="mb-6 leading-relaxed text-slate-600">{description}</p>
+    <h3 className="mb-3 font-semibold text-slate-800">
       Зохион байгуулах үйл ажиллагаа:
     </h3>
     <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
       {events.map((event) => (
-        <li key={event} className="flex items-center text-gray-700">
-          <span className="mr-2 text-blue-500">•</span> {event}
+        <li key={event} className="flex items-center text-slate-700">
+          <span className="mr-2 text-brand-accent">•</span> {event}
         </li>
       ))}
     </ul>
@@ -45,17 +49,14 @@ export default function DulguunRestaurantPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans antialiased selection:bg-blue-500/30">
-      <TopBar />
-      <MainHeader />
-
-      <div className="px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl space-y-8">
-          <header className="mb-12 text-center">
-            <h1 className="mb-2 text-4xl font-extrabold text-blue-900">
+    <PageShell>
+      <div className="mx-auto max-w-4xl space-y-6">
+          <header className="mb-6 text-center">
+            <p className="page-eyebrow mb-3">Зоог, үйлчилгээ</p>
+            <h1 className="text-3xl font-extrabold tracking-tight text-blue-900 sm:text-4xl">
               Дөлгөөн Ресторан
             </h1>
-            <div className="mx-auto h-1 w-20 rounded-full bg-blue-500" />
+            <div className="mx-auto mt-4 h-1 w-20 rounded-full bg-gradient-to-r from-brand to-brand-accent" />
           </header>
 
           <RestaurantSection
@@ -70,7 +71,7 @@ export default function DulguunRestaurantPage() {
             events={branch2Events}
           />
 
-          <footer className="rounded-2xl bg-blue-900 p-8 text-center text-white shadow-xl">
+          <div className="rounded-2xl bg-gradient-to-br from-blue-900 to-brand p-8 text-center text-white shadow-lg">
             <p className="mb-2 font-medium text-blue-200">Захиалга өгөх утас</p>
             <a
               href="tel:99995463"
@@ -79,11 +80,8 @@ export default function DulguunRestaurantPage() {
               99995463
             </a>
             <p className="mt-4 italic text-blue-100">Менежер Сэлэнгэ</p>
-          </footer>
-        </div>
+          </div>
       </div>
-
-      <Footer />
-    </div>
+    </PageShell>
   );
 }

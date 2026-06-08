@@ -53,7 +53,7 @@ export default function Footer() {
 
             <div className="space-y-4">
               <Link
-                href="#"
+                href="/lux-news"
                 className="flex items-center gap-2 hover:text-blue-400 transition"
               >
                 <ChevronRight size={16} />
@@ -61,7 +61,7 @@ export default function Footer() {
               </Link>
 
               <Link
-                href="#"
+                href="/auto-advice"
                 className="flex items-center gap-2 hover:text-blue-400 transition"
               >
                 <ChevronRight size={16} />
@@ -69,7 +69,7 @@ export default function Footer() {
               </Link>
 
               <Link
-                href="#"
+                href="/legal-advice"
                 className="flex items-center gap-2 hover:text-blue-400 transition"
               >
                 <ChevronRight size={16} />
@@ -77,7 +77,7 @@ export default function Footer() {
               </Link>
 
               <Link
-                href="#"
+                href="/auto-news"
                 className="flex items-center gap-2 hover:text-blue-400 transition"
               >
                 <ChevronRight size={16} />
@@ -125,7 +125,7 @@ export default function Footer() {
 
             <div className="space-y-6">
               <div className="flex gap-4">
-                <div className="bg-red-600 h-9 p-2 rounded">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-600">
                   <MapPin size={18} />
                 </div>
 
@@ -136,26 +136,26 @@ export default function Footer() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="bg-red-600 p-2 rounded">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-600">
                   <Phone size={18} />
                 </div>
 
                 <a
                   href="tel:70070088"
-                  className="hover:text-blue-400 transition"
+                  className="transition-colors hover:text-blue-400"
                 >
                   70070088
                 </a>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="bg-red-600 p-2 rounded">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-600">
                   <Mail size={18} />
                 </div>
 
                 <a
                   href="mailto:info@auto-oil.mn"
-                  className="hover:text-blue-400 transition"
+                  className="transition-colors hover:text-blue-400"
                 >
                   info@auto-oil.mn
                 </a>
@@ -168,7 +168,7 @@ export default function Footer() {
         <div className="border-t border-slate-800 mt-14 pt-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="text-slate-400 text-sm text-center lg:text-left flex items-center justify-center gap-4">
-              © 2024 Зохиогчийн эрх хуулиар хамгаалагдсан.
+              © {new Date().getFullYear()} Зохиогчийн эрх хуулиар хамгаалагдсан.
               <Image
                 src="/webecom.png"
                 alt="Webecom Agency"

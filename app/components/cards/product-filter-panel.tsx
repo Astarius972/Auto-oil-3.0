@@ -25,8 +25,8 @@ export function ProductFilterPanel({
   onPriceChange,
 }: ProductFilterPanelProps) {
   return (
-    <div className="mt-6 border border-slate-200 bg-white">
-      <div className="flex items-center justify-between bg-[#0d4a8f] px-4 py-3 text-sm font-bold text-white">
+    <div className="app-card mt-5 overflow-hidden">
+      <div className="flex items-center justify-between bg-brand-dark px-4 py-3 text-sm font-bold text-white">
         <span className="flex items-center gap-2">
           <Menu size={16} />
           ШҮҮЛТ
@@ -34,10 +34,10 @@ export function ProductFilterPanel({
         <ChevronDown size={18} />
       </div>
 
-      <div className="border-b border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700">
-        БРЭНД
+      <div className="px-4 pt-4 pb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+        Брэнд
       </div>
-      <ul className="border-b border-slate-200">
+      <ul className="px-1.5 pb-2">
         {brands.map((brand) => {
           const isActive = selectedBrand === brand;
           return (
@@ -45,9 +45,10 @@ export function ProductFilterPanel({
               <button
                 type="button"
                 onClick={() => onBrandChange(isActive ? null : brand)}
-                className={`block w-full px-4 py-2.5 text-left text-sm transition-colors ${
+                aria-pressed={isActive}
+                className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors ${
                   isActive
-                    ? "bg-slate-100 font-medium text-slate-900"
+                    ? "bg-brand-dark/10 font-semibold text-brand-dark"
                     : "text-slate-600 hover:bg-slate-50"
                 }`}
               >
@@ -58,15 +59,15 @@ export function ProductFilterPanel({
         })}
       </ul>
 
-      <div className="bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700">
-        ҮНЭ
+      <div className="border-t border-slate-100 px-4 pt-4 pb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+        Үнэ
       </div>
-      <div className="px-4 py-5">
-        <div className="relative mb-2">
+      <div className="px-4 pb-5 pt-6">
+        <div className="relative mb-3">
           <div
-            className="pointer-events-none absolute -top-9 rounded bg-black px-2 py-1 text-xs text-white"
+            className="pointer-events-none absolute -top-8 -translate-x-1/2 rounded-md bg-slate-900 px-2 py-1 text-xs font-semibold text-white shadow-sm"
             style={{
-              left: `calc(${((priceValue - priceMin) / (priceMax - priceMin)) * 100}% - 28px)`,
+              left: `${((priceValue - priceMin) / (priceMax - priceMin)) * 100}%`,
             }}
           >
             {formatPrice(priceValue)}
@@ -79,7 +80,8 @@ export function ProductFilterPanel({
           step={priceStep}
           value={priceValue}
           onChange={(event) => onPriceChange(Number(event.target.value))}
-          className="product-price-slider h-2 w-full cursor-pointer appearance-none rounded-full bg-slate-200"
+          aria-label="Дээд үнэ"
+          className="product-price-slider h-2 w-full cursor-pointer rounded-full bg-slate-200"
         />
         <div className="mt-2 flex justify-between text-xs text-slate-500">
           <span>{formatPrice(priceMin)}</span>

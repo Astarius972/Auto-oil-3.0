@@ -54,8 +54,8 @@ export function ProductsCatalog() {
     <div className="flex flex-col gap-6">
       <ProductSearchBar value={nameQuery} onChange={setNameQuery} />
 
-      <div className="flex flex-col gap-8 md:flex-row">
-        <aside className="w-full shrink-0 md:w-72">
+      <div className="flex flex-col gap-6 md:flex-row lg:gap-8">
+        <aside className="w-full shrink-0 md:w-72 md:self-start lg:sticky lg:top-32">
           <ProductCategoryList
             categories={categoriesWithCounts}
             selectedCategory={selectedCategory}
@@ -73,13 +73,18 @@ export function ProductsCatalog() {
           />
         </aside>
 
-        <main className="w-full border border-slate-200 bg-white p-6">
-          <h1 className="mb-6 border-b border-slate-300 pb-4 text-xl font-bold text-black">
-            Бараа бүтээгдэхүүн
-          </h1>
+        <main className="app-card w-full p-5 sm:p-6">
+          <div className="mb-6 flex items-center justify-between border-b border-slate-200 pb-4">
+            <h2 className="text-lg font-bold text-slate-900 sm:text-xl">
+              Бараа бүтээгдэхүүн
+            </h2>
+            <span className="text-sm text-slate-500">
+              {filteredProducts.length} илэрц
+            </span>
+          </div>
 
           {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {filteredProducts.map((product) => {
                 const cartQuantity =
                   items.find((item) => item.productId === product.id)?.quantity ??
@@ -100,9 +105,14 @@ export function ProductsCatalog() {
               })}
             </div>
           ) : (
-            <p className="py-12 text-center text-slate-500">
-              Таны хайлтаар бүтээгдэхүүн олдсонгүй.
-            </p>
+            <div className="flex flex-col items-center justify-center gap-2 py-16 text-center">
+              <p className="text-base font-medium text-slate-600">
+                Таны хайлтаар бүтээгдэхүүн олдсонгүй.
+              </p>
+              <p className="text-sm text-slate-400">
+                Шүүлтүүрээ өөрчилж дахин оролдоно уу.
+              </p>
+            </div>
           )}
         </main>
       </div>

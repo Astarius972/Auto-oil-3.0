@@ -17,42 +17,48 @@ export default function InfoBox({
   schedule,
 }: InfoBoxProps) {
   return (
-    <div className="border w-[350px] h-[590px] rounded-lg p-4 shadow-md bg-white">
-      <Image
-        src={imageUrl}
-        alt={title}
-        width={700}
-        height={700}
-        className="w-full h-48 object-cover rounded-md shadow-md mt-4"
-      />
+    <article className="app-card app-card-hover group flex h-full flex-col overflow-hidden">
+      <div className="overflow-hidden">
+        <Image
+          src={imageUrl}
+          alt={title}
+          width={700}
+          height={700}
+          className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
 
-      <h2 className="text-xl font-bold text-blue-900">{title}</h2>
+      <div className="flex flex-1 flex-col p-5">
+        <h2 className="text-base font-bold leading-snug text-blue-900">
+          {title}
+        </h2>
 
-      <div className="mt-6 space-y-4">
-        <div>
-          <div className="flex items-center gap-2 text-blue-800 font-semibold">
-            <MapPin size={18} className="text-red-600" />
-            <span>Address</span>
+        <div className="mt-5 space-y-4 text-sm">
+          <div>
+            <div className="flex items-center gap-2 font-semibold text-blue-800">
+              <MapPin size={16} className="shrink-0 text-red-600" />
+              <span>Хаяг</span>
+            </div>
+            <p className="ml-6 mt-1 leading-relaxed text-slate-600">{address}</p>
           </div>
-          <p className="text-gray-700 ml-7">{address}</p>
-        </div>
 
-        <div>
-          <div className="flex items-center gap-2 text-blue-800 font-semibold">
-            <Phone size={18} className="text-red-600" />
-            <span>Phone</span>
+          <div>
+            <div className="flex items-center gap-2 font-semibold text-blue-800">
+              <Phone size={16} className="shrink-0 text-red-600" />
+              <span>Утас</span>
+            </div>
+            <p className="ml-6 mt-1 text-slate-600">{phone}</p>
           </div>
-          <p className="text-gray-700 ml-7">{phone}</p>
-        </div>
 
-        <div>
-          <div className="flex items-center gap-2 text-blue-800 font-semibold">
-            <Clock size={18} className="text-red-600" />
-            <span>Schedule</span>
+          <div>
+            <div className="flex items-center gap-2 font-semibold text-blue-800">
+              <Clock size={16} className="shrink-0 text-red-600" />
+              <span>Цагийн хуваарь</span>
+            </div>
+            <p className="ml-6 mt-1 text-slate-600">{schedule}</p>
           </div>
-          <p className="text-gray-700 ml-7">{schedule}</p>
         </div>
       </div>
-    </div>
+    </article>
   );
 }

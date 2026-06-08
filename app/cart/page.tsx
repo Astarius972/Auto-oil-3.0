@@ -2,126 +2,155 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Minus, Plus, Trash2 } from "lucide-react";
-import { MainHeader } from "../components/cards/main-header";
-import { TopBar } from "../components/cards/top-bar";
-import Footer from "../components/footer";
+import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { PageShell } from "../components/layout/page-shell";
+import { PageHeader } from "../components/layout/page-header";
 import { formatPrice } from "../components/cards/product-data";
 import { useCart } from "../context/cart-context";
 
 export default function CartPage() {
-  const { items, totalCount, totalPrice, isHydrated, updateQuantity, removeFromCart, clearCart } =
-    useCart();
+  const {
+    items,
+    totalCount,
+    totalPrice,
+    isHydrated,
+    updateQuantity,
+    removeFromCart,
+    clearCart,
+  } = useCart();
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-800 antialiased selection:bg-blue-500/30">
-      <TopBar />
-      <MainHeader />
+    <PageShell>
+      <PageHeader
+        eyebrow="Захиалга"
+        title="Миний сагс"
+        description="Сонгосон бүтээгдэхүүнээ шалгаж, тоо хэмжээгээ тохируулна уу."
+        actions={
+          isHydrated && items.length > 0 ? (
+            <button
+              type="button"
+              onClick={clearCart}
+              className="btn-secondary text-red-600 hover:border-red-300 hover:bg-red-50"
+            >
+              <Trash2 size={16} />
+              Бүгдийг устгах
+            </button>
+          ) : undefined
+        }
+      />
 
-      <div className="mx-auto max-w-4xl p-4 md:p-8">
-        <div className="border border-slate-200 bg-white p-6">
-          <div className="mb-6 flex items-center justify-between border-b border-slate-300 pb-4">
-            <h1 className="text-xl font-bold text-black">Миний сагс</h1>
-            {isHydrated && items.length > 0 ? (
-              <button
-                type="button"
-                onClick={clearCart}
-                className="text-sm text-red-600 hover:text-red-700"
+      {!isHydrated ? (
+        <div className="app-card p-12 text-center text-slate-500">
+          Сагсыг ачаалж байна...
+        </div>
+      ) : items.length === 0 ? (
+        <div className="app-card flex flex-col items-center gap-4 p-12 text-center">
+          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+            <ShoppingBag size={28} />
+          </span>
+          <p className="text-base font-medium text-slate-600">
+            Таны сагс хоосон байна.
+          </p>
+          <Link href="/products" className="btn-primary">
+            Бүтээгдэхүүн үзэх
+          </Link>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <div className="space-y-4 lg:col-span-2">
+            {items.map((item) => (
+              <article
+                key={item.productId}
+                className="app-card flex flex-col gap-4 p-4 sm:flex-row sm:items-center"
               >
-                Бүгдийг устгах
-              </button>
-            ) : null}
-          </div>
+                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-xl bg-slate-50">
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.name}
+                    width={96}
+                    height={96}
+                    className="h-20 w-auto object-contain"
+                  />
+                </div>
 
-          {!isHydrated ? (
-            <p className="py-12 text-center text-slate-500">Сагсыг ачаалж байна...</p>
-          ) : items.length === 0 ? (
-            <div className="py-12 text-center">
-              <p className="text-slate-500">Таны сагс хоосон байна.</p>
-              <Link
-                href="/products"
-                className="mt-4 inline-block text-sm font-semibold text-[#0d4a8f] hover:underline"
-              >
-                Бүтээгдэхүүн үзэх
-              </Link>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {items.map((item) => (
-                <article
-                  key={item.productId}
-                  className="flex flex-col gap-4 border border-slate-200 p-4 sm:flex-row sm:items-center"
-                >
-                  <div className="flex h-24 w-24 shrink-0 items-center justify-center bg-slate-100">
-                    <Image
-                      src={item.imageUrl}
-                      alt={item.name}
-                      width={96}
-                      height={96}
-                      className="h-20 w-auto object-contain"
-                    />
-                  </div>
+                <div className="flex-1">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+                    {item.brand}
+                  </p>
+                  <h2 className="font-semibold text-slate-900">{item.name}</h2>
+                  <p className="mt-1 text-sm font-bold text-brand-dark">
+                    {formatPrice(item.price)}
+                  </p>
+                </div>
 
-                  <div className="flex-1">
-                    <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-                      {item.brand}
-                    </p>
-                    <h2 className="font-semibold text-slate-900">{item.name}</h2>
-                    <p className="mt-1 text-sm font-semibold text-[#0d4a8f]">
-                      {formatPrice(item.price)}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="inline-flex items-center rounded-xl border border-slate-300">
                     <button
                       type="button"
-                      onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                      className="rounded border border-slate-300 p-2 hover:bg-slate-50"
+                      onClick={() =>
+                        updateQuantity(item.productId, item.quantity - 1)
+                      }
+                      className="rounded-l-xl p-2.5 text-slate-600 transition-colors hover:bg-slate-50"
                       aria-label="Хэмжээ бууруулах"
                     >
                       <Minus size={16} />
                     </button>
-                    <span className="min-w-8 text-center font-semibold">{item.quantity}</span>
+                    <span className="min-w-9 text-center text-sm font-semibold">
+                      {item.quantity}
+                    </span>
                     <button
                       type="button"
-                      onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                      className="rounded border border-slate-300 p-2 hover:bg-slate-50"
+                      onClick={() =>
+                        updateQuantity(item.productId, item.quantity + 1)
+                      }
+                      className="rounded-r-xl p-2.5 text-slate-600 transition-colors hover:bg-slate-50"
                       aria-label="Хэмжээ нэмэх"
                     >
                       <Plus size={16} />
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => removeFromCart(item.productId)}
-                      className="rounded border border-slate-300 p-2 text-red-600 hover:bg-red-50"
-                      aria-label="Устгах"
-                    >
-                      <Trash2 size={16} />
-                    </button>
                   </div>
-                </article>
-              ))}
-
-              <div className="flex items-center justify-between border-t border-slate-200 pt-4">
-                <div>
-                  <p className="text-sm text-slate-500">Нийт бүтээгдэхүүн: {totalCount}</p>
-                  <p className="text-lg font-bold text-slate-900">
-                    Нийт дүн: {formatPrice(totalPrice)}
-                  </p>
+                  <button
+                    type="button"
+                    onClick={() => removeFromCart(item.productId)}
+                    className="rounded-xl border border-slate-300 p-2.5 text-red-600 transition-colors hover:border-red-300 hover:bg-red-50"
+                    aria-label="Устгах"
+                  >
+                    <Trash2 size={16} />
+                  </button>
                 </div>
-                <Link
-                  href="/products"
-                  className="rounded bg-[#0d4a8f] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#0a3d75]"
-                >
-                  Үргэлжлүүлэх
-                </Link>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+              </article>
+            ))}
+          </div>
 
-      <Footer />
-    </div>
+          <aside className="lg:sticky lg:top-32 lg:self-start">
+            <div className="app-card p-5 sm:p-6">
+              <h2 className="border-b border-slate-200 pb-4 text-lg font-bold text-slate-900">
+                Захиалгын дүн
+              </h2>
+              <div className="mt-4 space-y-3 text-sm">
+                <div className="flex items-center justify-between text-slate-600">
+                  <span>Нийт бүтээгдэхүүн</span>
+                  <span className="font-semibold text-slate-900">
+                    {totalCount} ш
+                  </span>
+                </div>
+                <div className="flex items-center justify-between border-t border-slate-200 pt-3">
+                  <span className="font-semibold text-slate-700">Нийт дүн</span>
+                  <span className="text-xl font-bold text-brand-dark">
+                    {formatPrice(totalPrice)}
+                  </span>
+                </div>
+              </div>
+              <Link
+                href="/products"
+                className="btn-secondary mt-5 w-full"
+              >
+                Үргэлжлүүлэн дэлгүүр хэсэх
+              </Link>
+            </div>
+          </aside>
+        </div>
+      )}
+    </PageShell>
   );
 }

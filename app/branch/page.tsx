@@ -1,20 +1,20 @@
-import { TopBar } from "../components/cards/top-bar";
-import { MainHeader } from "../components/cards/main-header";
-import Link from "next/link";
 import InfoBox from "../components/cards/box";
-import Footer from "../components/footer";
+import { PageShell } from "../components/layout/page-shell";
+import { PageHeader } from "../components/layout/page-header";
+
+export const metadata = {
+  title: "Салбарын байршил",
+};
 
 export default function BranchPage() {
   return (
-    <div className="min-h-screen  text-slate-200 font-sans antialiased selection:bg-blue-500/30">
-      <TopBar />
-      <MainHeader />
-      <div className="max-w-7xl mx-auto p-4 md:p-8">
-        <main className="w-full border-8 p-6">
-          <h1 className="text-xl font-bold border-b text-black border-slate-300 pb-4 mb-6">
-            САЛБАРЫН БАЙРШИЛ
-          </h1>
-          <div className="flex flex-wrap justify-center items-center gap-4">
+    <PageShell>
+      <PageHeader
+        eyebrow="Бидэнтэй уулзах"
+        title="Салбарын байршил"
+        description="Манай салбар, агуулахын хаяг, утас болон ажиллах цагийн мэдээлэл."
+      />
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <InfoBox
               title="САЛБАР 1 ТОСНЫ ХУДАЛДАА, ЗАСВАР ҮЙЛЧИЛГЭЭ"
               imageUrl="/salbar3.jpg"
@@ -43,10 +43,7 @@ export default function BranchPage() {
               phone="7019-6666"
               schedule="Бүх өдөр 9:00 - 20:00"
             />
-          </div>
-        </main>
       </div>
-      <Footer />
-    </div>
+    </PageShell>
   );
 }
