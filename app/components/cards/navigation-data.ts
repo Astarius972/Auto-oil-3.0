@@ -9,7 +9,12 @@ export interface NavCard {
 }
 
 export const NAVIGATION_CARDS: NavCard[] = [
-  { title: "LUX OIL", subtitle: "Auto Center", icon: Wrench, href: "#" },
+  {
+    title: "LUX OIL",
+    subtitle: "Auto Center",
+    icon: Wrench,
+    href: "/products",
+  },
   {
     title: "PRODUCTS",
     subtitle: "Бараа Бүтээгдэхүүн",
@@ -21,9 +26,9 @@ export const NAVIGATION_CARDS: NavCard[] = [
     title: "RESTAURANT",
     subtitle: "Дөлгөөн ресторан",
     icon: Utensils,
-    href: "#",
+    href: "/dulguun-restaurant",
   },
-  { title: "HOTEL", subtitle: "Aurora Hotel", icon: Hotel, href: "#" },
+  { title: "HOTEL", subtitle: "Aurora Hotel", icon: Hotel, href: "/aurora" },
 ];
 
 export const navigationStyles = {
