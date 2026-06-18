@@ -17,7 +17,7 @@ export const NAVIGATION_CARDS: NavCard[] = [
   },
   {
     title: "PRODUCTS",
-    subtitle: "Бараа Бүтээгдэхүүн",
+    subtitle: "Бүтээгдэхүүн",
     icon: ShoppingBag,
     href: "/products",
   },
