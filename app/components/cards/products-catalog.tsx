@@ -5,7 +5,6 @@ import ProductCard from "./product-box";
 import { ProductCategoryList } from "./product-category-list";
 import { ProductFilterPanel } from "./product-filter-panel";
 import { ProductSearchBar } from "./product-search-bar";
-import { useCart } from "../../context/cart-context";
 import {
   buildCategoriesWithCounts,
   PRICE_FILTER,
@@ -15,7 +14,6 @@ import {
 } from "./product-data";
 
 export function ProductsCatalog() {
-  const { addToCart, items } = useCart();
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [nameQuery, setNameQuery] = useState("");
@@ -85,12 +83,7 @@ export function ProductsCatalog() {
 
           {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {filteredProducts.map((product) => {
-                const cartQuantity =
-                  items.find((item) => item.productId === product.id)?.quantity ??
-                  0;
-
-                return (
+              {filteredProducts.map((product) => (
                   <ProductCard
                     key={product.id}
                     id={product.id}
@@ -98,11 +91,8 @@ export function ProductsCatalog() {
                     imageUrl={product.imageUrl}
                     price={product.price}
                     brand={product.brand}
-                    cartQuantity={cartQuantity}
-                    onAddToCart={() => addToCart(product)}
                   />
-                );
-              })}
+                ))}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center gap-2 py-16 text-center">

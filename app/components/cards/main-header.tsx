@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { AutoOilLogo } from "../icons";
-import { CartNavButton } from "./cart-nav-button";
 import { HEADER_NAV_LINKS, headerStyles } from "./header-navigation-data";
 
 export function MainHeader() {
@@ -46,7 +45,6 @@ export function MainHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <CartNavButton />
           <button
             type="button"
             onClick={() => setIsMenuOpen((open) => !open)}

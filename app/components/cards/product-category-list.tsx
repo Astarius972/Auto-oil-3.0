@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDown, Menu } from "lucide-react";
+import { useState } from "react";
 import type { ProductCategory } from "./product-data";
 
 export interface ProductCategoryListProps {
@@ -14,45 +15,64 @@ export function ProductCategoryList({
   selectedCategory,
   onCategorySelect,
 }: ProductCategoryListProps) {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
-    <div className="app-card overflow-hidden">
-      <div className="flex items-center justify-between bg-brand-dark px-4 py-3 text-sm font-bold text-white">
+    <div className="app-card">
+      <button
+        type="button"
+        onClick={() => setIsOpen((open) => !open)}
+        aria-expanded={isOpen}
+        className="flex w-full items-center justify-between rounded-t-2xl bg-brand-dark px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-brand-dark/95"
+      >
         <span className="flex items-center gap-2">
           <Menu size={16} />
           АНГИЛАЛ
         </span>
-        <ChevronDown size={18} />
-      </div>
-      <ul className="p-1.5">
-        {categories.map((category) => {
-          const isActive = selectedCategory === category.id;
-          return (
-            <li key={category.id}>
-              <button
-                type="button"
-                onClick={() => onCategorySelect(isActive ? null : category.id)}
-                aria-pressed={isActive}
-                className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
-                  isActive
-                    ? "bg-brand-dark/10 font-semibold text-brand-dark"
-                    : "text-slate-600 hover:bg-slate-50"
-                }`}
-              >
-                <span>{category.label}</span>
-                <span
-                  className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+        <ChevronDown
+          size={18}
+          className={`shrink-0 transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      <div
+        className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+          isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
+      >
+        <ul className="overflow-hidden p-1.5">
+          {categories.map((category) => {
+            const isActive = selectedCategory === category.id;
+            return (
+              <li key={category.id}>
+                <button
+                  type="button"
+                  onClick={() => onCategorySelect(isActive ? null : category.id)}
+                  aria-pressed={isActive}
+                  className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-left text-sm transition-colors ${
                     isActive
-                      ? "bg-brand-dark text-white"
-                      : "bg-slate-200 text-slate-600"
+                      ? "bg-brand-dark/10 font-semibold text-brand-dark"
+                      : "text-slate-600 hover:bg-slate-50"
                   }`}
                 >
-                  {category.count}
-                </span>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+                  <span>{category.label}</span>
+                  <span
+                    className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+                      isActive
+                        ? "bg-brand-dark text-white"
+                        : "bg-slate-200 text-slate-600"
+                    }`}
+                  >
+                    {category.count}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 }

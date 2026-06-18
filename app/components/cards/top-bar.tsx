@@ -20,10 +20,6 @@ export function TopBar() {
             );
           })}
         </div>
-        <button className={topBarStyles.langButton}>
-          <Globe className={topBarStyles.icon} />
-          <span>EN</span>
-        </button>
       </div>
     </div>
   );

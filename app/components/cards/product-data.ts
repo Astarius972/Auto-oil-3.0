@@ -45,7 +45,7 @@ function normalizeProduct(input: ProductInput): Product {
 
 function getUniqueBrands(products: Product[]): string[] {
   return [...new Set(products.map((product) => product.brand))].sort((a, b) =>
-    a.localeCompare(b, "mn"),
+    a < b ? -1 : a > b ? 1 : 0,
   );
 }
 

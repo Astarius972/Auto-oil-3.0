@@ -1,24 +1,33 @@
-export interface HeaderNavLink {
-  label: string;
-  href: string;
-}
+  export interface HeaderNavLink {
+    label: string;
+    href: string;
+  }
 
-export const HEADER_NAV_LINKS: HeaderNavLink[] = [
-  { label: "БИДНИЙ ТУХАЙ", href: "/about" },
-  { label: "САЛБАРЫН БАЙРШИЛ", href: "/branch" },
-  { label: "БАРАА БҮТЭЭГДЭХҮҮН", href: "/products" },
-  { label: "ХУДАЛДАН АВАЛТ", href: "/procurement" },
-  { label: "БРЭНДҮҮД", href: "/brand" },
-  { label: "АЖЛЫН БАЙР", href: "/jobs" },
-  { label: "ХОЛБОО БАРИХ", href: "/contact" },
-];
-
-export const headerStyles = {
-  header:
-    "sticky top-10 z-40 w-full border-b border-white/10 bg-[#2248b3]/95 shadow-md backdrop-blur supports-[backdrop-filter]:bg-[#2248b3]/90",
-  container:
-    "container-page flex items-center justify-between gap-4 py-3.5",
-  nav: "hidden items-center gap-1 lg:flex",
-  link: "relative rounded-lg px-3 py-2 text-[13px] font-semibold tracking-wide text-white/80 transition-colors hover:bg-white/10 hover:text-white",
-  linkActive: "bg-white/15 text-white",
-};
+  // Үгсийг нэг мөрөнд шахцалдахгүй, цэвэрхэн багтаах үүднээс богиносгов
+  export const HEADER_NAV_LINKS: HeaderNavLink[] = [
+    { label: "ТУХАЙ", href: "/about" },
+    { label: "БАЙРШИЛ", href: "/branch" },
+    { label: "БҮТЭЭГДЭХҮҮН", href: "/products" },
+    { label: "ХУДАЛДАН АВАЛТ", href: "/procurement" },
+    { label: "БРЭНДҮҮД", href: "/brand" },
+    { label: "АЖЛЫН БАЙР", href: "/jobs" },
+    { label: "ХОЛБОО БАРИХ", href: "/contact" },
+  ];
+  
+    export const headerStyles = {
+      // 1. Брэндийн гүн цэнхэр өнгө (bg-[#1a3e75]/90) дээр цэвэрхэн blur + доод талын нарийн цагаан шугам
+      header:
+        "fixed top-0 left-0 z-50 w-full border-b border-white/10 bg-[#1a3e75]/90 backdrop-blur-md shadow-md transition-all duration-300",
+      
+      container:
+        "container-page flex items-center justify-between gap-6 py-4 px-8 mx-auto",
+      
+      nav: "hidden items-center gap-1 lg:flex",
+      
+      // 2. Цэвэрхэн Slide-in Underline hover эффект нэмэв.
+      // "after:" ашиглан хулганаа хүргэхэд дундаас нь эсвэл зүүнээс нь нарийн цагаан зураас сунаж гарч ирнэ.
+      link: "relative px-3 py-1.5 text-[12px] font-normal tracking-widest text-white/70 uppercase transition-all duration-300 hover:text-white after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 hover:after:w-[calc(100%-24px)]",
+      
+      // 3. Идэвхтэй байгаа хуудасны цэс байнга 100% тод цагаан, доогуураа нарийн зураастайгаа байна.
+      linkActive: "text-white font-medium after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[1px] after:w-[calc(100%-24px)] after:bg-white",
+    };

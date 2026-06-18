@@ -2,9 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, Minus, Plus, ShoppingCart } from "lucide-react";
 import { useState } from "react";
-import { useCart } from "../../context/cart-context";
 import { SimilarProducts } from "./similar-products";
 import { formatPrice, type Product } from "./product-data";
 
@@ -19,21 +17,12 @@ export function ProductDetailView({
   product,
   similarProducts,
 }: ProductDetailViewProps) {
-  const { addToCartWithQuantity, items } = useCart();
-  const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<ProductTab>("info");
   const [activeImage, setActiveImage] = useState(product.imageUrl);
 
   const galleryImages = product.images?.length
     ? product.images
     : [product.imageUrl];
-
-  const cartQuantity =
-    items.find((item) => item.productId === product.id)?.quantity ?? 0;
-
-  const handleAddToCart = () => {
-    addToCartWithQuantity(product, quantity);
-  };
 
   return (
     <div className="space-y-8">
@@ -103,60 +92,6 @@ export function ProductDetailView({
           <p className="mt-5 text-sm leading-relaxed text-slate-600">
             {product.shortDescription}
           </p>
-
-          <div className="mt-7 border-t border-slate-200 pt-6">
-            <p className="mb-3 text-sm font-semibold text-slate-800">
-              Тоо хэмжээ
-            </p>
-            <div className="inline-flex items-center rounded-xl border border-slate-300">
-              <button
-                type="button"
-                onClick={() => setQuantity((value) => Math.max(1, value - 1))}
-                className="rounded-l-xl p-3 text-slate-600 transition-colors hover:bg-slate-50"
-                aria-label="Хэмжээ бууруулах"
-              >
-                <Minus size={16} />
-              </button>
-              <input
-                type="number"
-                min={1}
-                value={quantity}
-                onChange={(event) =>
-                  setQuantity(Math.max(1, Number(event.target.value) || 1))
-                }
-                aria-label="Тоо хэмжээ"
-                className="w-14 border-x border-slate-300 py-2.5 text-center text-sm font-semibold text-slate-900 outline-none focus:bg-slate-50"
-              />
-              <button
-                type="button"
-                onClick={() => setQuantity((value) => value + 1)}
-                className="rounded-r-xl p-3 text-slate-600 transition-colors hover:bg-slate-50"
-                aria-label="Хэмжээ нэмэх"
-              >
-                <Plus size={16} />
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-6 flex gap-3">
-            <button
-              type="button"
-              onClick={handleAddToCart}
-              className="btn-primary flex-1 py-3"
-            >
-              <ShoppingCart size={18} />
-              {cartQuantity > 0
-                ? `Сагсанд нэмэх (${cartQuantity} байна)`
-                : "Сагсанд нэмэх"}
-            </button>
-            <button
-              type="button"
-              className="flex items-center justify-center rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-600 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-500"
-              aria-label="Дуртай жагсаалтад нэмэх"
-            >
-              <Heart size={18} />
-            </button>
-          </div>
         </div>
       </div>
 
