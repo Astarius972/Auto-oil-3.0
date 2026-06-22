@@ -4,18 +4,23 @@ import { useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export interface NewsListItem {
-  id: number;
+  id: number | string;
   title: string;
   excerpt: string;
   imageUrl: string;
   fullContent: string;
+  isHtml?: boolean;
 }
 
 export interface NewsListViewProps {
   items: NewsListItem[];
+  emptyMessage?: string;
 }
 
-export function NewsListView({ items }: NewsListViewProps) {
+export function NewsListView({
+  items,
+  emptyMessage = "Одоогоор нийтлэгдсэн мэдээ байхгүй байна.",
+}: NewsListViewProps) {
   const [selectedNews, setSelectedNews] = useState<NewsListItem | null>(null);
 
   if (selectedNews) {
@@ -32,15 +37,32 @@ export function NewsListView({ items }: NewsListViewProps) {
         <h2 className="text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
           {selectedNews.title}
         </h2>
-        <img
-          src={selectedNews.imageUrl}
-          alt={selectedNews.title}
-          className="mt-6 h-64 w-full rounded-xl object-cover"
-        />
-        <p className="mt-6 text-base leading-relaxed text-slate-700">
-          {selectedNews.fullContent}
-        </p>
+        {selectedNews.imageUrl ? (
+          <img
+            src={selectedNews.imageUrl}
+            alt={selectedNews.title}
+            className="mt-6 h-64 w-full rounded-xl object-cover"
+          />
+        ) : null}
+        {selectedNews.isHtml ? (
+          <div
+            className="prose prose-slate mt-6 max-w-none text-base leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: selectedNews.fullContent }}
+          />
+        ) : (
+          <p className="mt-6 text-base leading-relaxed text-slate-700">
+            {selectedNews.fullContent}
+          </p>
+        )}
       </article>
+    );
+  }
+
+  if (items.length === 0) {
+    return (
+      <div className="app-card mx-auto max-w-3xl p-8 text-center text-slate-600">
+        {emptyMessage}
+      </div>
     );
   }
 
@@ -52,11 +74,15 @@ export function NewsListView({ items }: NewsListViewProps) {
           className="app-card app-card-hover group flex flex-col overflow-hidden"
         >
           <div className="overflow-hidden">
-            <img
-              src={item.imageUrl}
-              alt={item.title}
-              className="h-44 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
+            {item.imageUrl ? (
+              <img
+                src={item.imageUrl}
+                alt={item.title}
+                className="h-44 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            ) : (
+              <div className="h-44 w-full bg-gradient-to-br from-slate-100 to-slate-200" />
+            )}
           </div>
           <div className="flex flex-1 flex-col p-5">
             <h3 className="mb-2 text-lg font-bold leading-snug text-slate-900">

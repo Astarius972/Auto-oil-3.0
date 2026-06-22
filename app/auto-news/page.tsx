@@ -1,17 +1,11 @@
-import { PageShell } from "../components/layout/page-shell";
-import { PageHeader } from "../components/layout/page-header";
-import { NewsListView } from "../components/cards/news-list-view";
-import { newsData } from "./auto-news-data";
+import { CmsPostListPage } from "../components/cms/cms-post-list-page";
 
 export const metadata = {
   title: "Авто мэдлэг",
 };
 
+export const revalidate = 60;
+
 export default function AutoNewsPage() {
-  return (
-    <PageShell>
-      <PageHeader eyebrow="Мэдээ мэдээлэл" title="Авто Мэдлэг" />
-      <NewsListView items={newsData} />
-    </PageShell>
-  );
+  return <CmsPostListPage section="auto-news" />;
 }
