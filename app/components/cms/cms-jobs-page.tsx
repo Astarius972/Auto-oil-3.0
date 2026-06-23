@@ -16,7 +16,6 @@ export async function CmsJobsPage() {
   return (
     <PageShell>
       <PageHeader
-        eyebrow={config.eyebrow}
         title={post?.title ?? config.title}
         description={config.description}
       />

@@ -16,7 +16,6 @@ export async function CmsPostListPage({ section }: CmsPostListPageProps) {
   return (
     <PageShell>
       <PageHeader
-        eyebrow={config.eyebrow}
         title={config.title}
         description={config.description}
       />

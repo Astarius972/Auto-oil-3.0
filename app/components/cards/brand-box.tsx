@@ -19,6 +19,7 @@ export default function BrandBox({ imageUrl, alt, href }: BrandBoxProps) {
         alt={alt}
         width={200}
         height={140}
+        unoptimized={imageUrl.startsWith("http")}
         className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
       />
     </Link>

@@ -24,7 +24,10 @@ export function parseJobsContact(
     "Та бүхэн дараах хаягаар холбогдоно уу.";
 
   const phone =
-    text.match(/Утас:\s*([^\n]+)/i)?.[1]?.trim().replace(/\s+/g, " ") || "";
+    text
+      .match(/Утас:\s*([^\n]+)/i)?.[1]
+      ?.trim()
+      .replace(/\s+/g, " ") || "";
 
   const email =
     text.match(/И-мэйл:\s*([^\s\n\[]+)/i)?.[1]?.trim() ||

@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 
 interface PageHeaderProps {
   title: string;
-  eyebrow?: string;
   description?: string;
   actions?: ReactNode;
   className?: string;
@@ -10,7 +9,6 @@ interface PageHeaderProps {
 
 export function PageHeader({
   title,
-  eyebrow,
   description,
   actions,
   className = "",
@@ -19,7 +17,6 @@ export function PageHeader({
     <div className={`mb-8 ${className}`}>
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          {eyebrow ? <p className="page-eyebrow mb-2">{eyebrow}</p> : null}
           <h1 className="page-title">{title}</h1>
           {description ? (
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base">

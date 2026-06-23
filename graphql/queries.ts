@@ -57,6 +57,8 @@ export const cmsPostDetail = gql`
     cpPost(slug: $slug, _id: $id) {
       _id
       title
+      slug
+      type
       content
       excerpt
       featured

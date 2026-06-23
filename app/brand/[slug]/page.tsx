@@ -1,28 +1,33 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BRANDS, getBrandBySlug } from "../../components/cards/brand-data";
 import { BrandGallery } from "../../components/cards/brand-gallery";
+import { PdfEmbed } from "../../components/cards/pdf-embed";
 import { ScribdEmbed } from "../../components/cards/scribd-embed";
 import { PageShell } from "../../components/layout/page-shell";
+import { fetchCmsBrandBySlug, fetchCmsBrands } from "@/lib/cms-brand";
 
 type BrandDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return BRANDS.map((brand) => ({ slug: brand.slug }));
+export async function generateStaticParams() {
+  const brands = await fetchCmsBrands();
+  return brands.map((brand) => ({ slug: brand.slug }));
 }
 
 export async function generateMetadata({ params }: BrandDetailPageProps) {
   const { slug } = await params;
-  const brand = getBrandBySlug(slug);
+  const brand = await fetchCmsBrandBySlug(slug);
   return { title: brand?.name ?? "Брэнд" };
 }
 
+export const revalidate = 60;
+export const dynamicParams = true;
+
 export default async function BrandDetailPage({ params }: BrandDetailPageProps) {
   const { slug } = await params;
-  const brand = getBrandBySlug(slug);
+  const brand = await fetchCmsBrandBySlug(slug);
 
   if (!brand) {
     notFound();
@@ -48,22 +53,35 @@ export default async function BrandDetailPage({ params }: BrandDetailPageProps) 
               alt={brand.name}
               width={480}
               height={240}
+              unoptimized={brand.imageUrl.startsWith("http")}
               className="mx-auto max-h-48 w-full object-contain"
             />
           </div>
-          <p className="max-w-2xl whitespace-pre-line text-justify leading-relaxed text-slate-700">
-            {brand.description}
-          </p>
-          {brand.scribdDocumentId && (
+
+          {brand.contentHtml ? (
+            <div
+              className="prose prose-slate max-w-2xl text-justify"
+              dangerouslySetInnerHTML={{ __html: brand.contentHtml }}
+            />
+          ) : brand.description ? (
+            <p className="max-w-2xl whitespace-pre-line text-justify leading-relaxed text-slate-700">
+              {brand.description}
+            </p>
+          ) : null}
+
+          {brand.pdfUrl ? (
+            <PdfEmbed url={brand.pdfUrl} title={`${brand.name} каталог`} />
+          ) : brand.scribdDocumentId ? (
             <ScribdEmbed
               documentId={brand.scribdDocumentId}
               secretPassword={brand.scribdSecretPassword}
               title={`${brand.name} каталог`}
             />
-          )}
-          {brand.galleryImages && brand.galleryImages.length > 0 && (
+          ) : null}
+
+          {brand.galleryImages && brand.galleryImages.length > 0 ? (
             <BrandGallery images={brand.galleryImages} alt={brand.name} />
-          )}
+          ) : null}
         </div>
       </div>
     </PageShell>

@@ -36,7 +36,6 @@ export async function CmsSinglePostPage({ section }: CmsSinglePostPageProps) {
   return (
     <PageShell>
       <PageHeader
-        eyebrow={config.eyebrow}
         title={post?.title ?? config.title}
         description={post?.excerpt ?? config.description}
       />

@@ -36,14 +36,6 @@ export default function Footer() {
                 <ChevronRight size={16} />
                 Products
               </Link>
-
-              <Link
-                href="/contact"
-                className="flex items-center gap-2 hover:text-blue-400 transition"
-              >
-                <ChevronRight size={16} />
-                Contact
-              </Link>
             </div>
           </div>
 

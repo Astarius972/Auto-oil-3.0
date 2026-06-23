@@ -3,7 +3,7 @@ import { MapPin, Phone, Clock } from "lucide-react";
 
 type InfoBoxProps = {
   title: string;
-  imageUrl: string;
+  imageUrl?: string;
   address: string;
   phone: string;
   schedule: string;
@@ -18,16 +18,18 @@ export default function InfoBox({
 }: InfoBoxProps) {
   return (
     <article className="app-card app-card-hover group flex h-full w-full flex-col overflow-hidden">
-      <div className="overflow-hidden">
-        <Image
-          src={imageUrl}
-          alt={title}
-          width={700}
-          height={700}
-          unoptimized={imageUrl.startsWith("http")}
-          className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105 sm:h-64"
-        />
-      </div>
+      {imageUrl ? (
+        <div className="overflow-hidden">
+          <Image
+            src={imageUrl}
+            alt={title}
+            width={700}
+            height={700}
+            unoptimized={imageUrl.startsWith("http")}
+            className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105 sm:h-64"
+          />
+        </div>
+      ) : null}
 
       <div className="flex flex-1 flex-col p-5 sm:p-6">
         <h2 className="text-base font-bold leading-snug text-blue-900 sm:text-lg">
@@ -40,7 +42,9 @@ export default function InfoBox({
               <MapPin size={16} className="shrink-0 text-red-600" />
               <span>Хаяг</span>
             </div>
-            <p className="ml-6 mt-1 leading-relaxed text-slate-600">{address}</p>
+            <p className="ml-6 mt-1 leading-relaxed text-slate-600">
+              {address}
+            </p>
           </div>
 
           <div>

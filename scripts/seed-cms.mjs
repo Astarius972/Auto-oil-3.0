@@ -12,7 +12,9 @@ const API_URL = env.match(/ERXES_API_URL=(.+)/)?.[1]?.trim();
 const APP_TOKEN = env.match(/ERXES_APP_TOKEN=(.+)/)?.[1]?.trim();
 
 if (!API_URL || !APP_TOKEN) {
-  console.error("ERXES_API_URL болон ERXES_APP_TOKEN .env.local дээр байх ёстой");
+  console.error(
+    "ERXES_API_URL болон ERXES_APP_TOKEN .env.local дээр байх ёстой",
+  );
   process.exit(1);
 }
 
@@ -80,12 +82,6 @@ const SEED_POSTS = [
     content: `<p><strong>Хаяг:</strong> Товчооны зам, Сонсголонгийн уулзвар Монос фармын замын хойно</p><p><strong>Утас:</strong> 7019-6666</p><p><strong>Цагийн хуваарь:</strong> Бүх өдөр 9:00 - 20:00</p>`,
   },
   {
-    type: "contact",
-    title: "Бидэнтэй холбогдох",
-    excerpt: "Асуулт, санал хүсэлт байвал доорх мэдээллээр бидэнтэй холбогдоно уу.",
-    content: `<p><strong>Хаяг:</strong> Улаанбаатар хот, 18080, Сонгинохайрхан дүүрэг, 18-р хороо, Энхтайваны өргөн чөлөө-163</p><p><strong>Утас:</strong> <a href="tel:70070088">70070088</a></p><p><strong>И-мэйл:</strong> <a href="mailto:info@auto-oil.mn">info@auto-oil.mn</a></p><p><img src="/contact.jpg" alt="Холбоо барих" /></p>`,
-  },
-  {
     type: "jobs",
     title: "Ажлын байр",
     excerpt: "Манай багт нэгдэх боломжуудын тухай мэдээлэл.",
@@ -94,7 +90,8 @@ const SEED_POSTS = [
   {
     type: "procurement",
     title: "Худалдан авалт",
-    excerpt: "Бөөний болон жижиглэн худалдааны нөхцөл, бүтээгдэхүүний мэдээлэл.",
+    excerpt:
+      "Бөөний болон жижиглэн худалдааны нөхцөл, бүтээгдэхүүний мэдээлэл.",
     content: `<p><img src="/Web_items_2017.10.06.jpg" alt="Худалдан авалт" /></p>`,
   },
   {
@@ -133,19 +130,22 @@ const SEED_POSTS = [
     type: "lux-news",
     title: "LUX OIL Auto Center шинэчлэгдлээ",
     excerpt: "LUX OIL Auto Center үйлчилгээний чанар, тав тухыг нэмэгдүүллээ.",
-    content: "<p>LUX OIL Auto Center-ийн шинэчлэл, үйлчилгээний талаарх дэлгэрэнгүй мэдээлэл.</p>",
+    content:
+      "<p>LUX OIL Auto Center-ийн шинэчлэл, үйлчилгээний талаарх дэлгэрэнгүй мэдээлэл.</p>",
   },
   {
     type: "legal-advice",
     title: "Автомашины даатгалын зөвлөгөө",
     excerpt: "Автомашины даатгал сонгох, шаардлагатай баримт бичгийн талаар.",
-    content: "<p>Автомашины даатгалын төрөл, хамгаалалт, шаардлагатай баримт бичгийн зөвлөмж.</p>",
+    content:
+      "<p>Автомашины даатгалын төрөл, хамгаалалт, шаардлагатай баримт бичгийн зөвлөмж.</p>",
   },
   {
     type: "auto-advice",
     title: "Өвлийн улиралд машинаа хэрхэн бэлтгэх вэ?",
     excerpt: "Өвлийн улиралд тос, дугуй, аккумуляторыг шалгах зөвлөмж.",
-    content: "<p>Өвлийн улиралд автомашины тос, дугуй, аккумулятор, зайрмаг шалгах алхмууд.</p>",
+    content:
+      "<p>Өвлийн улиралд автомашины тос, дугуй, аккумулятор, зайрмаг шалгах алхмууд.</p>",
   },
 ];
 
@@ -212,7 +212,9 @@ async function main() {
   if (!mutation) {
     console.log("\n⚠️  Client Portal token-оор post үүсгэх боломжгүй.");
     console.log("CMS admin panel руу нэвтэрч гараар post нэмнэ үү:");
-    console.log("https://autooilnew.next.erxes.io/content/cms/yxdeOzP8ZW1oS7y-uCG8_/posts");
+    console.log(
+      "https://autooilnew.next.erxes.io/content/cms/yxdeOzP8ZW1oS7y-uCG8_/posts",
+    );
     console.log("\nДараах type-уудаар post үүсгэнэ:");
     for (const type of [...new Set(SEED_POSTS.map((p) => p.type))]) {
       console.log(`  - ${type}`);

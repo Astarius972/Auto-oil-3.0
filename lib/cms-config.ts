@@ -5,7 +5,7 @@ export type CmsSectionKey =
   | "legal-advice"
   | "auto-advice"
   | "branch"
-  | "contact"
+  | "brand"
   | "jobs"
   | "procurement"
   | "aurora"
@@ -16,7 +16,6 @@ export type CmsLayout = "single" | "list" | "grid";
 export type CmsSectionConfig = {
   type: string;
   layout: CmsLayout;
-  eyebrow: string;
   title: string;
   description?: string;
   metadataTitle: string;
@@ -32,7 +31,6 @@ export const CMS_SECTIONS: Record<CmsSectionKey, CmsSectionConfig> = {
   about: {
     type: "about",
     layout: "single",
-    eyebrow: "Бидний тухай",
     title: "Компаний танилцуулга",
     description:
       "2001 оноос хойшхи аяллаа, үнэт зүйлс, алсын хараагаа танд хүргэж байна.",
@@ -41,28 +39,24 @@ export const CMS_SECTIONS: Record<CmsSectionKey, CmsSectionConfig> = {
   "auto-news": {
     type: "auto-news",
     layout: "list",
-    eyebrow: "Мэдээ мэдээлэл",
     title: "Авто Мэдлэг",
     metadataTitle: "Авто мэдлэг",
   },
   "lux-news": {
     type: "lux-news",
     layout: "list",
-    eyebrow: "Мэдээ мэдээлэл",
     title: "Lux News",
     metadataTitle: "Lux News",
   },
   "legal-advice": {
     type: "legal-advice",
     layout: "list",
-    eyebrow: "Зөвлөгөө",
     title: "Хууль Зүйн Зөвлөгөө",
     metadataTitle: "Хууль зүйн зөвлөгөө",
   },
   "auto-advice": {
     type: "auto-advice",
     layout: "list",
-    eyebrow: "Зөвлөгөө",
     title: "Авто Зөвлөгөө",
     metadataTitle: "Авто зөвлөгөө",
   },
@@ -70,26 +64,23 @@ export const CMS_SECTIONS: Record<CmsSectionKey, CmsSectionConfig> = {
     type: "branch",
     layout: "grid",
     postId: "5HTxvJFvSq3CWxV5BDEqb",
-    eyebrow: "Бидэнтэй уулзах",
     title: "Салбарын байршил",
     description:
       "Манай салбар, агуулахын хаяг, утас болон ажиллах цагийн мэдээлэл.",
     metadataTitle: "Салбарын байршил",
   },
-  contact: {
-    type: "contact",
-    layout: "single",
-    eyebrow: "Холбоо барих",
-    title: "Бидэнтэй холбогдох",
+  brand: {
+    type: "brand",
+    layout: "grid",
+    title: "Брэндүүд",
     description:
-      "Асуулт, санал хүсэлт байвал доорх мэдээллээр бидэнтэй холбогдоно уу.",
-    metadataTitle: "Холбоо барих",
+      "Бидний албан ёсоор төлөөлдөг дэлхийн тэргүүлэгч үйлдвэрлэгчид.",
+    metadataTitle: "Брэндүүд",
   },
   jobs: {
     type: "jobs",
     layout: "single",
     postId: "7gfW-J65jwT4hxwolEGgR",
-    eyebrow: "Карьер",
     title: "Ажлын байр",
     description: "Манай багт нэгдэх боломжуудын тухай мэдээлэл.",
     metadataTitle: "Ажлын байр",
@@ -97,7 +88,6 @@ export const CMS_SECTIONS: Record<CmsSectionKey, CmsSectionConfig> = {
   procurement: {
     type: "procurement",
     layout: "single",
-    eyebrow: "Үйлчилгээ",
     title: "Худалдан авалт",
     description:
       "Бөөний болон жижиглэн худалдааны нөхцөл, бүтээгдэхүүний мэдээлэл.",
@@ -106,14 +96,12 @@ export const CMS_SECTIONS: Record<CmsSectionKey, CmsSectionConfig> = {
   aurora: {
     type: "aurora",
     layout: "single",
-    eyebrow: "Зочид буудал",
     title: "AURORA HOTEL",
     metadataTitle: "Aurora Hotel",
   },
   "dulguun-restaurant": {
     type: "dulguun-restaurant",
     layout: "list",
-    eyebrow: "Зоог, үйлчилгээ",
     title: "Дөлгөөн Ресторан",
     metadataTitle: "Дөлгөөн ресторан",
   },

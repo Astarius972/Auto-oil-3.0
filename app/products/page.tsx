@@ -10,7 +10,6 @@ export default function ProductsPage() {
   return (
     <PageShell>
       <PageHeader
-        eyebrow="Дэлгүүр"
         title="Бараа бүтээгдэхүүн"
         description="Дэлхийн тэргүүлэгч брэндүүдийн тос, тосолгооны материал, автохими болон сэлбэгийг ангилал, брэнд, үнээр шүүж сонгоно уу."
       />

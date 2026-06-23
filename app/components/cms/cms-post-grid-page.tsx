@@ -16,7 +16,6 @@ export async function CmsPostGridPage({ section }: CmsPostGridPageProps) {
   return (
     <PageShell>
       <PageHeader
-        eyebrow={config.eyebrow}
         title={config.title}
         description={config.description}
       />

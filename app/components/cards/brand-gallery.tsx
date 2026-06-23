@@ -21,6 +21,7 @@ export function BrandGallery({ images, alt }: BrandGalleryProps) {
               alt={alt}
               width={1200}
               height={800}
+              unoptimized={src.startsWith("http")}
               className="h-auto w-full object-contain"
             />
           </div>

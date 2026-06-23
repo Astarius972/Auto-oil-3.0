@@ -4,7 +4,10 @@ import { cmsPostDetail, cmsPostList } from "@/graphql/queries";
 import { apolloClient } from "@/lib/apollo-client";
 import type { CmsSectionFilter } from "@/lib/cms-config";
 
-import type { CmsCustomField, CmsCustomFieldsMap } from "@/lib/cms-custom-fields";
+import type {
+  CmsCustomField,
+  CmsCustomFieldsMap,
+} from "@/lib/cms-custom-fields";
 
 export type CmsPost = {
   _id: string;
@@ -14,7 +17,7 @@ export type CmsPost = {
   content?: string | null;
   excerpt?: string | null;
   thumbnail?: { url?: string | null } | null;
-  images?: Array<{ url?: string | null; name?: string | null }> | null;
+  images?: Array<{ url?: string | null; name?: string | null; type?: string | null }> | null;
   customFieldsData?: CmsCustomField[] | string | null;
   customFieldsMap?: CmsCustomFieldsMap | null;
 };
@@ -92,7 +95,9 @@ export async function fetchCmsPostById(id: string): Promise<CmsPost | null> {
   }
 }
 
-export async function fetchCmsPostByType(type: string): Promise<CmsPost | null> {
+export async function fetchCmsPostByType(
+  type: string,
+): Promise<CmsPost | null> {
   const posts = await fetchCmsPostsRaw({ type });
   return posts[0] ?? null;
 }
@@ -106,11 +111,6 @@ export async function fetchCmsPost(
       if (post) return post;
     }
 
-    if (filter.type) {
-      const posts = await fetchCmsPostsRaw({ type: filter.type });
-      if (posts.length > 0) return posts[0];
-    }
-
     if (filter.slug) {
       const { data } = await apolloClient.query<CmsPostDetailData>({
         query: cmsPostDetail,
@@ -118,10 +118,23 @@ export async function fetchCmsPost(
         fetchPolicy: "no-cache",
       });
 
-      if (data?.cpPost) return data.cpPost;
+      if (data?.cpPost) {
+        if (filter.type && data.cpPost.type && data.cpPost.type !== filter.type) {
+          return null;
+        }
+        return data.cpPost;
+      }
 
-      const posts = await fetchCmsPostsRaw({ slug: filter.slug });
+      const posts = await fetchCmsPostsRaw({
+        type: filter.type,
+        slug: filter.slug,
+      });
       return posts[0] ?? null;
+    }
+
+    if (filter.type) {
+      const posts = await fetchCmsPostsRaw({ type: filter.type });
+      if (posts.length > 0) return posts[0];
     }
 
     return null;

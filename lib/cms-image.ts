@@ -51,6 +51,17 @@ export function resolveCmsImageUrl(raw?: string | null): string {
   return `${baseUrl}/gateway/read-file?key=${encodeURIComponent(value)}`;
 }
 
+type CmsPostCoverSource = {
+  thumbnail?: { url?: string | null } | null;
+  images?: Array<{ url?: string | null }> | null;
+};
+
+/** CMS post-ийн Cover (thumbnail), байхгүй бол gallery-ийн эхний зураг */
+export function getCmsPostCoverUrl(post?: CmsPostCoverSource | null): string {
+  if (!post) return "";
+  return resolveCmsImageUrl(post.thumbnail?.url ?? post.images?.[0]?.url);
+}
+
 /** HTML content доторх img src-ийг засна */
 export function resolveCmsHtmlContent(html?: string | null): string {
   if (!html) return "";

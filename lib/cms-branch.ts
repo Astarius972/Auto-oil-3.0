@@ -1,9 +1,6 @@
 import type { CmsPost } from "@/lib/cms";
-import {
-  cleanBranchAddress,
-  getCustomField,
-} from "@/lib/cms-custom-fields";
-import { resolveCmsImageUrl } from "@/lib/cms-image";
+import { cleanBranchAddress, getCustomField } from "@/lib/cms-custom-fields";
+import { getCmsPostCoverUrl } from "@/lib/cms-image";
 
 export type BranchCardData = {
   id: string;
@@ -46,9 +43,7 @@ export function mapCmsPostToBranchCard(post: CmsPost): BranchCardData {
 
   const content = post.content ?? "";
 
-  const imageUrl = resolveCmsImageUrl(
-    post.thumbnail?.url ?? post.images?.[0]?.url,
-  );
+  const imageUrl = getCmsPostCoverUrl(post);
 
   return {
     id: post._id,
