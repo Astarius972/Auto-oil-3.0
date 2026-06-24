@@ -39,6 +39,7 @@ export const cmsPostList = gql`
         categories {
           _id
           name
+          slug
         }
         images {
           url
@@ -71,6 +72,7 @@ export const cmsPostDetail = gql`
       categories {
         _id
         name
+        slug
       }
       images {
         url
@@ -79,6 +81,19 @@ export const cmsPostDetail = gql`
       }
       customFieldsData
       customFieldsMap
+    }
+  }
+`;
+
+export const cmsCategories = gql`
+  query CmsCategories {
+    cpCategories {
+      list {
+        _id
+        name
+        slug
+        parentId
+      }
     }
   }
 `;

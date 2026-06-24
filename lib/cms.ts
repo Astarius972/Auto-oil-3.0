@@ -24,6 +24,11 @@ export type CmsPost = {
   }> | null;
   customFieldsData?: CmsCustomField[] | string | null;
   customFieldsMap?: CmsCustomFieldsMap | null;
+  categories?: Array<{
+    _id: string;
+    name: string;
+    slug?: string | null;
+  }> | null;
 };
 
 type CmsPostListData = {

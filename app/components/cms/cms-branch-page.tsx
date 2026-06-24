@@ -4,10 +4,10 @@ import { fetchCmsPostById, fetchCmsPostsRaw } from "@/lib/cms";
 import { mapCmsPostToBranchCard } from "@/lib/cms-branch";
 import { CMS_SECTIONS } from "@/lib/cms-config";
 import {
-  getCmsPostCoverUrl,
+  getCmsPostGalleryImages,
   resolveCmsHtmlContent,
-  resolveCmsImageUrl,
 } from "@/lib/cms-image";
+import { CmsPostGallery } from "./cms-post-gallery";
 
 function CmsBranchEmptyState() {
   return (
@@ -48,7 +48,7 @@ export async function CmsBranchPage() {
         {posts.length > 0 ? (
           posts.map((post, index) => {
             const branch = mapCmsPostToBranchCard(post);
-            const coverImage = getCmsPostCoverUrl(post);
+            const galleryImages = getCmsPostGalleryImages(post);
             const contentHtml = resolveCmsHtmlContent(post.content);
             const hasContent = Boolean(post.content?.trim());
             const hasBranchInfo =
@@ -88,34 +88,7 @@ export async function CmsBranchPage() {
                   </article>
                 ) : null}
 
-                {coverImage ? (
-                  <div className="app-card mt-6 overflow-hidden p-2">
-                    <img
-                      src={coverImage}
-                      alt={post.title}
-                      className="h-auto w-full rounded-xl"
-                    />
-                  </div>
-                ) : null}
-
-                {post.images && post.images.length > 1 ? (
-                  <div className="mt-6">
-                    <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4">
-                      {post.images.map((image, imageIndex) => (
-                        <div
-                          key={`${image.url ?? "image"}-${imageIndex}`}
-                          className="w-[300px] flex-none snap-center"
-                        >
-                          <img
-                            src={resolveCmsImageUrl(image.url)}
-                            alt={image.name ?? `Image ${imageIndex + 1}`}
-                            className="h-auto w-full rounded-xl border border-slate-200 shadow-sm"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
+                <CmsPostGallery images={galleryImages} />
               </section>
             );
           })

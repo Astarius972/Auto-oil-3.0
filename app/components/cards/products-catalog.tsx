@@ -7,66 +7,86 @@ import { ProductFilterPanel } from "./product-filter-panel";
 import { ProductSearchBar } from "./product-search-bar";
 import {
   buildCategoriesWithCounts,
-  PRICE_FILTER,
-  PRODUCT_BRANDS,
-  PRODUCTS,
+  getProductCatalogMeta,
   type Product,
 } from "./product-data";
 
-export function ProductsCatalog() {
+import type { CmsFilterCategory } from "@/lib/cms-product";
+
+type ProductsCatalogProps = {
+  products: Product[];
+  angilalCategories?: CmsFilterCategory[];
+  brandCategories?: CmsFilterCategory[];
+};
+
+export function ProductsCatalog({
+  products,
+  angilalCategories,
+  brandCategories,
+}: ProductsCatalogProps) {
+  const { brands, priceFilter } = useMemo(
+    () => getProductCatalogMeta(products, brandCategories),
+    [products, brandCategories],
+  );
+
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [selectedBrandId, setSelectedBrandId] = useState<string | null>(null);
   const [nameQuery, setNameQuery] = useState("");
-  const [priceValue, setPriceValue] = useState(PRICE_FILTER.max);
+  const [priceValue, setPriceValue] = useState(priceFilter.max);
 
   const categoryFilters = useMemo(
     () => ({
       nameQuery,
-      selectedBrand,
+      selectedBrandId,
       priceValue,
     }),
-    [nameQuery, selectedBrand, priceValue],
+    [nameQuery, selectedBrandId, priceValue],
   );
 
   const categoriesWithCounts = useMemo(
-    () => buildCategoriesWithCounts(PRODUCTS, categoryFilters),
-    [categoryFilters],
+    () => buildCategoriesWithCounts(products, categoryFilters, angilalCategories),
+    [products, categoryFilters, angilalCategories],
   );
 
   const filteredProducts = useMemo(() => {
     const query = nameQuery.trim().toLowerCase();
 
-    return PRODUCTS.filter((product: Product) => {
+    return products.filter((product: Product) => {
       const matchesCategory =
-        !selectedCategory || product.categoryId === selectedCategory;
-      const matchesBrand = !selectedBrand || product.brand === selectedBrand;
+        !selectedCategory ||
+        product.typeCategoryId === selectedCategory ||
+        product.categoryId === selectedCategory;
+      const matchesBrand =
+        !selectedBrandId ||
+        product.brandCategoryId === selectedBrandId ||
+        product.brand === selectedBrandId;
       const matchesName =
         !query || product.name.toLowerCase().includes(query);
       const matchesPrice = product.price <= priceValue;
 
       return matchesCategory && matchesBrand && matchesName && matchesPrice;
     });
-  }, [nameQuery, priceValue, selectedBrand, selectedCategory]);
+  }, [products, nameQuery, priceValue, selectedBrandId, selectedCategory]);
 
   return (
     <div className="flex flex-col gap-6">
       <ProductSearchBar value={nameQuery} onChange={setNameQuery} />
 
       <div className="flex flex-col gap-6 md:flex-row lg:gap-8">
-        <aside className="w-full shrink-0 md:w-72 md:self-start lg:sticky lg:top-32">
+        <aside className="w-full shrink-0 md:w-72 md:self-start lg:sticky lg:top-[calc(var(--header-height)+1.5rem)]">
           <ProductCategoryList
             categories={categoriesWithCounts}
             selectedCategory={selectedCategory}
             onCategorySelect={setSelectedCategory}
           />
           <ProductFilterPanel
-            brands={PRODUCT_BRANDS}
-            selectedBrand={selectedBrand}
+            brands={brands}
+            selectedBrandId={selectedBrandId}
             priceValue={priceValue}
-            priceMin={PRICE_FILTER.min}
-            priceMax={PRICE_FILTER.max}
-            priceStep={PRICE_FILTER.step}
-            onBrandChange={setSelectedBrand}
+            priceMin={priceFilter.min}
+            priceMax={priceFilter.max}
+            priceStep={priceFilter.step}
+            onBrandChange={setSelectedBrandId}
             onPriceChange={setPriceValue}
           />
         </aside>
@@ -84,15 +104,15 @@ export function ProductsCatalog() {
           {filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {filteredProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    id={product.id}
-                    name={product.name}
-                    imageUrl={product.imageUrl}
-                    price={product.price}
-                    brand={product.brand}
-                  />
-                ))}
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  imageUrl={product.imageUrl}
+                  price={product.price}
+                  brand={product.brand}
+                />
+              ))}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center gap-2 py-16 text-center">

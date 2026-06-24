@@ -5,7 +5,7 @@ import type { CmsNewsSectionKey } from "@/lib/cms-news";
 import { getCmsNewsBasePath } from "@/lib/cms-news";
 import { CMS_SECTIONS } from "@/lib/cms-config";
 import { fetchCmsPostById, fetchCmsPostsRaw } from "@/lib/cms";
-import { resolveCmsHtmlContent, resolveCmsImageUrl } from "@/lib/cms-image";
+import { resolveCmsHtmlContent, getCmsPostGalleryImages } from "@/lib/cms-image";
 import { fetchNewsListItems } from "./cms-post-list-page";
 
 type CmsNewsDetailPageProps = {
@@ -35,9 +35,9 @@ export async function CmsNewsDetailPage({
 
   if (!post) notFound();
 
-  const coverImage = resolveCmsImageUrl(
-    post.thumbnail?.url ?? post.images?.[0]?.url,
-  );
+  const galleryImages = getCmsPostGalleryImages(post);
+  const heroImage = galleryImages[0];
+  const moreImages = galleryImages.slice(1);
   const contentHtml = resolveCmsHtmlContent(post.content);
 
   return (
@@ -54,10 +54,10 @@ export async function CmsNewsDetailPage({
           {post.title}
         </h1>
 
-        {coverImage ? (
+        {heroImage ? (
           <img
-            src={coverImage}
-            alt={post.title}
+            src={heroImage.url}
+            alt={heroImage.alt}
             className="mt-6 h-auto w-full rounded-xl object-cover"
           />
         ) : null}
@@ -73,16 +73,16 @@ export async function CmsNewsDetailPage({
           </p>
         ) : null}
 
-        {post.images && post.images.length > 1 ? (
+        {moreImages.length > 0 ? (
           <div className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4">
-            {post.images.map((image, index) => (
+            {moreImages.map((image, index) => (
               <div
-                key={`${image.url ?? "image"}-${index}`}
+                key={`${image.url}-${index}`}
                 className="w-[280px] flex-none snap-center"
               >
                 <img
-                  src={resolveCmsImageUrl(image.url)}
-                  alt={image.name ?? `Image ${index + 1}`}
+                  src={image.url}
+                  alt={image.alt}
                   className="h-auto w-full rounded-xl border border-slate-200 shadow-sm"
                 />
               </div>

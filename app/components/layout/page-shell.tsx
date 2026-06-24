@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { MainHeader } from "../cards/main-header";
-import { TopBar } from "../cards/top-bar";
 import Footer from "../footer";
 
 interface PageShellProps {
@@ -16,8 +15,7 @@ export function PageShell({
   className = "",
 }: PageShellProps) {
   return (
-    <div className="flex min-h-screen flex-col bg-slate-50 font-sans text-slate-800 antialiased selection:bg-brand/20">
-      <TopBar />
+    <div className="page-shell flex min-h-dvh flex-col overflow-x-clip bg-slate-50 font-sans text-slate-800 antialiased selection:bg-brand/20">
       <MainHeader />
       <main className={`flex-1 ${className}`}>
         {contained ? (

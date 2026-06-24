@@ -16,7 +16,7 @@ export const HEADER_NAV_LINKS: HeaderNavLink[] = [
 export const headerStyles = {
   // 1. Брэндийн гүн цэнхэр өнгө (bg-[#1a3e75]/90) дээр цэвэрхэн blur + доод талын нарийн цагаан шугам
   header:
-    "fixed top-0 left-0 z-50 w-full border-b border-white/10 bg-[#1a3e75]/90 backdrop-blur-md shadow-md transition-all duration-300",
+    "sticky top-0 z-50 w-full shrink-0 border-b border-white/10 bg-[#1a3e75]/90 backdrop-blur-md shadow-md transition-all duration-300",
 
   container:
     "container-page flex items-center justify-between gap-6 py-4 px-8 mx-auto",

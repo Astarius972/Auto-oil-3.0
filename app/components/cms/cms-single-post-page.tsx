@@ -3,7 +3,8 @@ import { PageHeader } from "../layout/page-header";
 import type { CmsSectionKey } from "@/lib/cms-config";
 import { CMS_SECTIONS } from "@/lib/cms-config";
 import { fetchCmsPostById, fetchCmsPostByType } from "@/lib/cms";
-import { resolveCmsHtmlContent, resolveCmsImageUrl } from "@/lib/cms-image";
+import { resolveCmsHtmlContent, getCmsPostGalleryImages } from "@/lib/cms-image";
+import { CmsPostGallery } from "./cms-post-gallery";
 
 type CmsSinglePostPageProps = {
   section: CmsSectionKey;
@@ -28,10 +29,8 @@ export async function CmsSinglePostPage({ section }: CmsSinglePostPageProps) {
   const post = config.postId
     ? await fetchCmsPostById(config.postId)
     : await fetchCmsPostByType(config.type);
-  const coverImage = resolveCmsImageUrl(
-    post?.thumbnail?.url ?? post?.images?.[0]?.url,
-  );
   const contentHtml = resolveCmsHtmlContent(post?.content);
+  const galleryImages = getCmsPostGalleryImages(post);
 
   return (
     <PageShell>
@@ -49,34 +48,7 @@ export async function CmsSinglePostPage({ section }: CmsSinglePostPageProps) {
               />
             </article>
 
-            {coverImage ? (
-              <div className="app-card mt-6 overflow-hidden p-2">
-                <img
-                  src={coverImage}
-                  alt={post.title}
-                  className="h-auto w-full rounded-xl"
-                />
-              </div>
-            ) : null}
-
-            {post.images && post.images.length > 1 ? (
-              <div className="mt-6">
-                <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4">
-                  {post.images.map((image, index) => (
-                    <div
-                      key={`${image.url ?? "image"}-${index}`}
-                      className="w-[300px] flex-none snap-center"
-                    >
-                      <img
-                        src={resolveCmsImageUrl(image.url)}
-                        alt={image.name ?? `Image ${index + 1}`}
-                        className="h-auto w-full rounded-xl border border-slate-200 shadow-sm"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ) : null}
+            <CmsPostGallery images={galleryImages} />
           </>
         ) : (
           <CmsEmptyState type={config.type} />

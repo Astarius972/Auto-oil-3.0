@@ -8,14 +8,14 @@ import { formatPrice, type Product } from "./product-data";
 
 export interface ProductDetailViewProps {
   product: Product;
-  similarProducts: Product[];
+  oilRelatedProducts: Product[];
 }
 
 type ProductTab = "info" | "specs";
 
 export function ProductDetailView({
   product,
-  similarProducts,
+  oilRelatedProducts,
 }: ProductDetailViewProps) {
   const [activeTab, setActiveTab] = useState<ProductTab>("info");
   const [activeImage, setActiveImage] = useState(product.imageUrl);
@@ -106,7 +106,7 @@ export function ProductDetailView({
                 : "text-slate-500 hover:text-slate-700"
             }`}
           >
-            Барааны мэдээлэл
+            Хэрэглэх заавар
             {activeTab === "info" ? (
               <span className="absolute inset-x-0 bottom-0 h-0.5 bg-brand-accent" />
             ) : null}
@@ -127,13 +127,35 @@ export function ProductDetailView({
           </button>
         </div>
         <div className="p-6">
-          <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">
-            {activeTab === "info" ? product.description : product.specifications}
-          </p>
+          {activeTab === "info" ? (
+            product.usageInstructionsHtml ? (
+              <div
+                className="prose prose-slate max-w-none text-sm leading-relaxed text-slate-700"
+                dangerouslySetInnerHTML={{
+                  __html: product.usageInstructionsHtml,
+                }}
+              />
+            ) : (
+              <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">
+                {product.usageInstructions || product.description}
+              </p>
+            )
+          ) : product.specificationsHtml ? (
+            <div
+              className="prose prose-slate max-w-none text-sm leading-relaxed text-slate-700"
+              dangerouslySetInnerHTML={{
+                __html: product.specificationsHtml,
+              }}
+            />
+          ) : (
+            <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">
+              {product.specifications}
+            </p>
+          )}
         </div>
       </div>
 
-      <SimilarProducts products={similarProducts} />
+      <SimilarProducts products={oilRelatedProducts} title="Тостой бараа" />
     </div>
   );
 }

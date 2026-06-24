@@ -4,9 +4,11 @@ import { ChevronDown, Menu } from "lucide-react";
 import { useState } from "react";
 import { formatPrice } from "./product-data";
 
+import type { ProductBrandFilter } from "./product-types";
+
 export interface ProductFilterPanelProps {
-  brands: string[];
-  selectedBrand: string | null;
+  brands: ProductBrandFilter[];
+  selectedBrandId: string | null;
   priceValue: number;
   priceMin: number;
   priceMax: number;
@@ -17,7 +19,7 @@ export interface ProductFilterPanelProps {
 
 export function ProductFilterPanel({
   brands,
-  selectedBrand,
+  selectedBrandId,
   priceValue,
   priceMin,
   priceMax,
@@ -37,7 +39,7 @@ export function ProductFilterPanel({
       >
         <span className="flex items-center gap-2">
           <Menu size={16} />
-          ШҮҮЛТ
+          BRAND
         </span>
         <ChevronDown
           size={18}
@@ -53,25 +55,31 @@ export function ProductFilterPanel({
         }`}
       >
         <div className="overflow-hidden">
-          <div className="px-4 pt-4 pb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Брэнд
-          </div>
-          <ul className="px-1.5 pb-2">
+          <ul className="px-1.5 pb-2 pt-1">
             {brands.map((brand) => {
-              const isActive = selectedBrand === brand;
+              const isActive = selectedBrandId === brand.id;
               return (
-                <li key={brand}>
+                <li key={brand.id}>
                   <button
                     type="button"
-                    onClick={() => onBrandChange(isActive ? null : brand)}
+                    onClick={() => onBrandChange(isActive ? null : brand.id)}
                     aria-pressed={isActive}
-                    className={`block w-full rounded-lg px-3 py-2 text-left text-sm transition-colors ${
+                    className={`flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm transition-colors ${
                       isActive
                         ? "bg-brand-dark/10 font-semibold text-brand-dark"
                         : "text-slate-600 hover:bg-slate-50"
                     }`}
                   >
-                    {brand}
+                    <span>{brand.label}</span>
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+                        isActive
+                          ? "bg-brand-dark text-white"
+                          : "bg-slate-200 text-slate-600"
+                      }`}
+                    >
+                      {brand.count}
+                    </span>
                   </button>
                 </li>
               );

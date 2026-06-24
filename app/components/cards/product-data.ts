@@ -2,6 +2,7 @@ import { PRODUCT_ENTRIES } from "../../data/products";
 import type {
   CategoryCountFilters,
   Product,
+  ProductBrandFilter,
   ProductCategory,
   ProductCategoryDefinition,
   ProductInput,
@@ -10,6 +11,7 @@ import type {
 export type {
   CategoryCountFilters,
   Product,
+  ProductBrandFilter,
   ProductCategory,
   ProductCategoryDefinition,
   ProductInput,
@@ -40,13 +42,53 @@ function normalizeProduct(input: ProductInput): Product {
     description,
     specifications: input.specifications ?? `Брэнд: ${input.brand}`,
     images: input.images ?? [input.imageUrl],
+    usageInstructions: input.description ?? description,
   };
 }
 
-function getUniqueBrands(products: Product[]): string[] {
-  return [...new Set(products.map((product) => product.brand))].sort((a, b) =>
-    a < b ? -1 : a > b ? 1 : 0,
-  );
+export function buildProductBrandFiltersFromProducts(
+  products: Product[],
+  cmsBrandCategories?: Array<{ id: string; label: string }>,
+): ProductBrandFilter[] {
+  const brandMap = new Map<string, ProductBrandFilter>();
+
+  const seedCategories =
+    cmsBrandCategories ??
+    products
+      .filter((product) => product.brandCategoryId)
+      .map((product) => ({
+        id: product.brandCategoryId!,
+        label: product.brand,
+      }));
+
+  for (const category of seedCategories) {
+    brandMap.set(category.id, {
+      id: category.id,
+      label: category.label,
+      count: 0,
+    });
+  }
+
+  for (const product of products) {
+    const id = product.brandCategoryId ?? product.brand;
+    if (!id) continue;
+
+    const existing = brandMap.get(id);
+    if (existing) {
+      existing.count += 1;
+      continue;
+    }
+
+    brandMap.set(id, {
+      id,
+      label: product.brand,
+      count: 1,
+    });
+  }
+
+  return [...brandMap.values()]
+    .filter((brand) => brand.count > 0 || cmsBrandCategories?.some((item) => item.id === brand.id))
+    .sort((a, b) => a.label.localeCompare(b.label, "mn"));
 }
 
 function getPriceFilterMax(products: Product[]): number {
@@ -58,15 +100,32 @@ function getPriceFilterMax(products: Product[]): number {
   return Math.ceil(highestPrice / 10_000) * 10_000;
 }
 
+export function getProductCatalogMeta(
+  products: Product[],
+  cmsBrandCategories?: Array<{ id: string; label: string }>,
+) {
+  return {
+    brands: buildProductBrandFiltersFromProducts(products, cmsBrandCategories),
+    priceFilter: {
+      min: 0,
+      max: getPriceFilterMax(products),
+      step: 1_000,
+    },
+  };
+}
+
 export const PRODUCTS: Product[] = PRODUCT_ENTRIES.map(normalizeProduct);
 
-export const PRODUCT_BRANDS = getUniqueBrands(PRODUCTS);
+function getStaticCategoryLabel(categoryId: string): string {
+  return (
+    PRODUCT_CATEGORY_DEFINITIONS.find((category) => category.id === categoryId)
+      ?.label ?? categoryId
+  );
+}
 
-export const PRICE_FILTER = {
-  min: 0,
-  max: getPriceFilterMax(PRODUCTS),
-  step: 1_000,
-};
+function getProductCategoryKey(product: Product): string {
+  return product.typeCategoryId ?? product.categoryId;
+}
 
 function matchesBaseFilters(
   product: Product,
@@ -76,7 +135,9 @@ function matchesBaseFilters(
   const matchesName =
     !query || product.name.toLowerCase().includes(query);
   const matchesBrand =
-    !filters.selectedBrand || product.brand === filters.selectedBrand;
+    !filters.selectedBrandId ||
+    product.brandCategoryId === filters.selectedBrandId ||
+    product.brand === filters.selectedBrandId;
   const matchesPrice = product.price <= filters.priceValue;
 
   return matchesName && matchesBrand && matchesPrice;
@@ -85,26 +146,61 @@ function matchesBaseFilters(
 export function buildCategoriesWithCounts(
   products: Product[],
   filters: CategoryCountFilters,
+  cmsTypeCategories?: Array<{ id: string; label: string }>,
 ): ProductCategory[] {
-  return PRODUCT_CATEGORY_DEFINITIONS.map((category) => ({
-    ...category,
-    count: products.filter(
-      (product) =>
-        product.categoryId === category.id &&
-        matchesBaseFilters(product, filters),
-    ).length,
-  }));
+  const categories =
+    cmsTypeCategories ??
+    [...new Map(
+      products.map((product) => {
+        const id = getProductCategoryKey(product);
+        return [
+          id,
+          {
+            id,
+            label:
+              product.categoryLabel ?? getStaticCategoryLabel(product.categoryId),
+          },
+        ] as const;
+      }),
+    ).values()];
+
+  return categories
+    .map(({ id, label }) => ({
+      id,
+      label,
+      count: products.filter(
+        (product) =>
+          getProductCategoryKey(product) === id &&
+          matchesBaseFilters(product, filters),
+      ).length,
+    }))
+    .filter((category) =>
+      cmsTypeCategories ? true : category.count > 0,
+    )
+    .sort((a, b) => a.label.localeCompare(b.label, "mn"));
 }
 
 export function getProductById(id: string): Product | undefined {
   return PRODUCTS.find((product) => product.id === id);
 }
 
-export function getSimilarProducts(product: Product, limit = 3): Product[] {
-  return PRODUCTS.filter(
-    (item) =>
-      item.id !== product.id && item.categoryId === product.categoryId,
-  ).slice(0, limit);
+export function getOilRelatedProducts(
+  product: Product,
+  products: Product[],
+  limit = 6,
+): Product[] {
+  return products
+    .filter((item) => item.id !== product.id && isOilProduct(item))
+    .slice(0, limit);
+}
+
+const OIL_CATEGORY_SLUGS = new Set(["tos-tosolgoo", "oils"]);
+
+export function isOilProduct(product: Product): boolean {
+  if (OIL_CATEGORY_SLUGS.has(product.categoryId)) return true;
+
+  const label = product.categoryLabel?.toLowerCase() ?? "";
+  return label.includes("тос");
 }
 
 export function formatPrice(price: number): string {

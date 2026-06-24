@@ -62,6 +62,43 @@ export function getCmsPostCoverUrl(post?: CmsPostCoverSource | null): string {
   return resolveCmsImageUrl(post.thumbnail?.url ?? post.images?.[0]?.url);
 }
 
+type CmsPostGallerySource = {
+  title?: string | null;
+  thumbnail?: { url?: string | null } | null;
+  images?: Array<{
+    url?: string | null;
+    name?: string | null;
+    type?: string | null;
+  }> | null;
+};
+
+/** Cover + gallery зургуудыг давхардалгүй нэгтгэнэ */
+export function getCmsPostGalleryImages(
+  post?: CmsPostGallerySource | null,
+): Array<{ url: string; alt: string }> {
+  if (!post) return [];
+
+  const gallery: Array<{ url: string; alt: string }> = [];
+  const seen = new Set<string>();
+
+  const addImage = (raw?: string | null, alt?: string | null) => {
+    const url = resolveCmsImageUrl(raw);
+    if (!url || seen.has(url)) return;
+    seen.add(url);
+    gallery.push({
+      url,
+      alt: alt?.trim() || post.title?.trim() || "Зураг",
+    });
+  };
+
+  addImage(post.thumbnail?.url, post.title);
+  for (const image of post.images ?? []) {
+    addImage(image.url, image.name);
+  }
+
+  return gallery;
+}
+
 /** HTML content доторх img src-ийг засна */
 export function resolveCmsHtmlContent(html?: string | null): string {
   if (!html) return "";

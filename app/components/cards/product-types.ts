@@ -29,17 +29,35 @@ export interface Product extends Required<
     | "brand"
     | "price"
     | "imageUrl"
-    | "categoryId"
     | "shortDescription"
     | "description"
     | "specifications"
   >
 > {
   images: string[];
+  /** Ангилалын ID (CMS slug эсвэл static id) */
+  categoryId: string;
+  /** CMS categories → Ангилал бүлгийн category ID */
+  typeCategoryId?: string;
+  /** CMS categories → Ангилалын нэр */
+  categoryLabel?: string;
+  /** CMS categories → Брэнд бүлгийн category ID */
+  brandCategoryId?: string;
+  /** CMS custom field → Хэрэглэх заавар */
+  usageInstructions?: string;
+  usageInstructionsHtml?: string;
+  /** CMS custom field → Техник үзүүлэлт */
+  specificationsHtml?: string;
+}
+
+export interface ProductBrandFilter {
+  id: string;
+  label: string;
+  count: number;
 }
 
 export interface ProductCategory {
-  id: ProductCategoryId;
+  id: string;
   label: string;
   count: number;
 }
@@ -51,6 +69,6 @@ export interface ProductCategoryDefinition {
 
 export interface CategoryCountFilters {
   nameQuery: string;
-  selectedBrand: string | null;
+  selectedBrandId: string | null;
   priceValue: number;
 }

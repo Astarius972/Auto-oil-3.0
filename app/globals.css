@@ -125,17 +125,42 @@
 }
 
 @layer base {
+  :root {
+    --page-bg: #f8fafc;
+    --header-height: 4.5rem;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
+
+  html {
+    @apply min-h-dvh font-sans text-foreground;
+    background-color: var(--page-bg);
+    overflow-x: clip;
+    overscroll-behavior-y: none;
+  }
+
+  html::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--page-bg);
+    pointer-events: none;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply min-h-dvh;
+    background-color: var(--page-bg);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    overscroll-behavior-y: none;
   }
-  html {
-    @apply font-sans scroll-smooth;
+
+  html:has(.page-home) {
+    --page-bg: #020617;
   }
 
   /* Accessible focus state for all interactive elements */

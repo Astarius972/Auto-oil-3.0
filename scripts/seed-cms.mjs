@@ -8,7 +8,7 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const env = readFileSync(resolve(__dirname, "../.env.local"), "utf8");
-const API_URL = env.match(/ERXES_API_URL=(.+)/)?.[1]?.trim();
+const API_URL = env.match(/ERXES_API_URL=(.+)/)?.[1]?.trim().replace(/\/$/, "");
 const APP_TOKEN = env.match(/ERXES_APP_TOKEN=(.+)/)?.[1]?.trim();
 
 if (!API_URL || !APP_TOKEN) {
@@ -146,6 +146,27 @@ const SEED_POSTS = [
     excerpt: "Өвлийн улиралд тос, дугуй, аккумуляторыг шалгах зөвлөмж.",
     content:
       "<p>Өвлийн улиралд автомашины тос, дугуй, аккумулятор, зайрмаг шалгах алхмууд.</p>",
+  },
+  {
+    type: "product",
+    title: "Shell Helix Ultra 5W-40",
+    excerpt:
+      "Өндөр гүйцэтгэлтэй синтетик моторын тос. Хөдөлгүүрийг бүрэн хамгаалж, түлшний хэмнэлтийг сайжруулна.",
+    content: `<p><strong>Брэнд:</strong> Shell</p>
+<p><strong>Үнэ:</strong> 125000</p>
+<p><strong>Ангилал:</strong> oils</p>
+<p>Shell Helix Ultra 5W-40 нь хөдөлгүүрийн эд ангийг цэвэр байлгаж, өргөөн температурын нөхцөлд тогтвортой ажиллана.</p>
+<p><strong>Техник үзүүлэлт:</strong> Брэнд: Shell, Загвар: 5W-40, Төрөл: Синтетик моторын тос</p>`,
+  },
+  {
+    type: "product",
+    title: "LUXE Моторын тос 10W-40",
+    excerpt: "LUXE брэндийн өндөр чанарын моторын тос.",
+    content: `<p><strong>Брэнд:</strong> Luxe</p>
+<p><strong>Үнэ:</strong> 45000</p>
+<p><strong>Ангилал:</strong> oils</p>
+<p>Бүх төрлийн бензин болон дизель хөдөлгүүрийн автомашинд тохиромжтой.</p>
+<p><strong>Техник үзүүлэлт:</strong> Брэнд: Luxe, Загвар: 10W-40</p>`,
   },
 ];
 

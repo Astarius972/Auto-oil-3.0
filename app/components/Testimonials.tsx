@@ -38,15 +38,15 @@ export const CircularTestimonialsDemo = () => {
   const activeItem = testimonials[activeIndex];
 
   return (
-    <section className="relative col-span-12 h-full min-h-[calc(100vh-140px)] w-full overflow-hidden">
+    <section className="relative col-span-12 h-full min-h-full w-full overflow-hidden bg-slate-950">
       <AnimatePresence mode="wait">
         <motion.div
           key={activeIndex}
-          initial={{ opacity: 0, scale: 1.04 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="absolute inset-0 h-full w-full"
+          className="absolute inset-0 h-full w-full bg-slate-950"
         >
           <img
             src={activeItem.src}

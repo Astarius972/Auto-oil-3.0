@@ -8,9 +8,13 @@ import type { Product } from "./product-data";
 
 export interface SimilarProductsProps {
   products: Product[];
+  title?: string;
 }
 
-export function SimilarProducts({ products }: SimilarProductsProps) {
+export function SimilarProducts({
+  products,
+  title = "ИЖИЛ ТӨРЛИЙН БАРАА",
+}: SimilarProductsProps) {
   const [startIndex, setStartIndex] = useState(0);
   const visibleCount = 3;
   const canGoBack = startIndex > 0;
@@ -33,7 +37,7 @@ export function SimilarProducts({ products }: SimilarProductsProps) {
             <Clock size={15} />
           </span>
           <h2 className="text-base font-bold text-slate-900 sm:text-lg">
-            ИЖИЛ ТӨРЛИЙН БАРАА
+            {title}
           </h2>
         </div>
         <div className="flex gap-2">

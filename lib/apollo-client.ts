@@ -1,8 +1,10 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
+const erxesApiUrl = (process.env.ERXES_API_URL ?? "").replace(/\/$/, "");
+
 const httpLink = createHttpLink({
-  uri: `${process.env.ERXES_API_URL}/gateway/graphql`,
+  uri: `${erxesApiUrl}/gateway/graphql`,
 });
 
 const authLink = setContext((_, { headers }) => ({

@@ -6,6 +6,7 @@ export type CmsSectionKey =
   | "auto-advice"
   | "branch"
   | "brand"
+  | "products"
   | "jobs"
   | "procurement"
   | "aurora"
@@ -80,6 +81,14 @@ export const CMS_SECTIONS: Record<CmsSectionKey, CmsSectionConfig> = {
       "Бидний албан ёсоор төлөөлдөг дэлхийн тэргүүлэгч үйлдвэрлэгчид.",
     metadataTitle: "Брэндүүд",
   },
+  products: {
+    type: "product",
+    layout: "grid",
+    title: "Бараа бүтээгдэхүүн",
+    description:
+      "Дэлхийн тэргүүлэгч брэндүүдийн тос, тосолгооны материал, автохими болон сэлбэгийг ангилал, брэнд, үнээр шүүж сонгоно уу.",
+    metadataTitle: "Бараа бүтээгдэхүүн",
+  },
   jobs: {
     type: "jobs",
     layout: "single",
@@ -99,6 +108,7 @@ export const CMS_SECTIONS: Record<CmsSectionKey, CmsSectionConfig> = {
   aurora: {
     type: "aurora",
     layout: "single",
+    postId: "HAI-hswXh_AAuC6S4MVhj",
     title: "AURORA HOTEL",
     metadataTitle: "Aurora Hotel",
   },
@@ -118,11 +128,3 @@ export type CmsSectionFilter = {
   slug?: string;
   postId?: string;
 };
-
-export const CMS_SECTION_FILTERS: Record<CmsSectionKey, CmsSectionFilter> =
-  Object.fromEntries(
-    Object.entries(CMS_SECTIONS).map(([key, section]) => [
-      key,
-      { type: section.type, postId: section.postId },
-    ]),
-  ) as Record<CmsSectionKey, CmsSectionFilter>;
