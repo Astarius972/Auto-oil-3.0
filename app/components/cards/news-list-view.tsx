@@ -1,10 +1,9 @@
-"use client";
-
-import { useState } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export interface NewsListItem {
   id: number | string;
+  slug?: string;
   title: string;
   excerpt: string;
   imageUrl: string;
@@ -14,50 +13,15 @@ export interface NewsListItem {
 
 export interface NewsListViewProps {
   items: NewsListItem[];
+  basePath?: string;
   emptyMessage?: string;
 }
 
 export function NewsListView({
   items,
+  basePath,
   emptyMessage = "Одоогоор нийтлэгдсэн мэдээ байхгүй байна.",
 }: NewsListViewProps) {
-  const [selectedNews, setSelectedNews] = useState<NewsListItem | null>(null);
-
-  if (selectedNews) {
-    return (
-      <article className="app-card mx-auto max-w-3xl p-6 sm:p-8 animate-fade-in-up">
-        <button
-          type="button"
-          onClick={() => setSelectedNews(null)}
-          className="mb-6 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-dark transition-colors hover:text-brand-deep"
-        >
-          <ArrowLeft size={16} />
-          Буцах
-        </button>
-        <h2 className="text-2xl font-bold leading-tight text-slate-900 sm:text-3xl">
-          {selectedNews.title}
-        </h2>
-        {selectedNews.imageUrl ? (
-          <img
-            src={selectedNews.imageUrl}
-            alt={selectedNews.title}
-            className="mt-6 h-64 w-full rounded-xl object-cover"
-          />
-        ) : null}
-        {selectedNews.isHtml ? (
-          <div
-            className="prose prose-slate mt-6 max-w-none text-base leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: selectedNews.fullContent }}
-          />
-        ) : (
-          <p className="mt-6 text-base leading-relaxed text-slate-700">
-            {selectedNews.fullContent}
-          </p>
-        )}
-      </article>
-    );
-  }
-
   if (items.length === 0) {
     return (
       <div className="app-card mx-auto max-w-3xl p-8 text-center text-slate-600">
@@ -91,17 +55,18 @@ export function NewsListView({
             <p className="mb-4 text-sm leading-relaxed text-slate-600">
               {item.excerpt}
             </p>
-            <button
-              type="button"
-              onClick={() => setSelectedNews(item)}
-              className="btn-ghost mt-auto w-max px-0 hover:bg-transparent hover:text-brand-deep"
-            >
-              Дэлгэрэнгүй
-              <ArrowRight
-                size={16}
-                className="transition-transform group-hover:translate-x-0.5"
-              />
-            </button>
+            {basePath && item.slug ? (
+              <Link
+                href={`${basePath}/${item.slug}`}
+                className="btn-ghost mt-auto w-max px-0 hover:bg-transparent hover:text-brand-deep"
+              >
+                Дэлгэрэнгүй
+                <ArrowRight
+                  size={16}
+                  className="transition-transform group-hover:translate-x-0.5"
+                />
+              </Link>
+            ) : null}
           </div>
         </article>
       ))}

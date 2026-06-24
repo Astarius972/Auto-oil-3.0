@@ -1,5 +1,5 @@
 import type { NewsListItem } from "@/app/components/cards/news-list-view";
-import { resolveCmsImageUrl } from "@/lib/cms-image";
+import { resolveCmsHtmlContent, resolveCmsImageUrl } from "@/lib/cms-image";
 import { cmsPostDetail, cmsPostList } from "@/graphql/queries";
 import { apolloClient } from "@/lib/apollo-client";
 import type { CmsSectionFilter } from "@/lib/cms-config";
@@ -17,7 +17,11 @@ export type CmsPost = {
   content?: string | null;
   excerpt?: string | null;
   thumbnail?: { url?: string | null } | null;
-  images?: Array<{ url?: string | null; name?: string | null; type?: string | null }> | null;
+  images?: Array<{
+    url?: string | null;
+    name?: string | null;
+    type?: string | null;
+  }> | null;
   customFieldsData?: CmsCustomField[] | string | null;
   customFieldsMap?: CmsCustomFieldsMap | null;
 };
@@ -36,14 +40,19 @@ export function mapCmsPostToNewsItem(post: CmsPost): NewsListItem {
   const imageUrl = resolveCmsImageUrl(
     post.thumbnail?.url ?? post.images?.[0]?.url,
   );
+  const content = post.content ?? "";
+  const hasHtml = /<[a-z][\s\S]*>/i.test(content);
 
   return {
     id: post._id,
+    slug: post.slug?.trim() || undefined,
     title: post.title,
     excerpt: post.excerpt ?? "",
     imageUrl,
-    fullContent: post.content ?? post.excerpt ?? "",
-    isHtml: Boolean(post.content),
+    fullContent: hasHtml
+      ? resolveCmsHtmlContent(content)
+      : content || post.excerpt || "",
+    isHtml: hasHtml,
   };
 }
 
@@ -119,7 +128,11 @@ export async function fetchCmsPost(
       });
 
       if (data?.cpPost) {
-        if (filter.type && data.cpPost.type && data.cpPost.type !== filter.type) {
+        if (
+          filter.type &&
+          data.cpPost.type &&
+          data.cpPost.type !== filter.type
+        ) {
           return null;
         }
         return data.cpPost;

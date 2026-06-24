@@ -1,4 +1,4 @@
-import { CmsPostListPage } from "../components/cms/cms-post-list-page";
+import { CmsSinglePostPage } from "../components/cms/cms-single-post-page";
 
 export const metadata = {
   title: "Дөлгөөн ресторан",
@@ -7,5 +7,5 @@ export const metadata = {
 export const revalidate = 60;
 
 export default function DulguunRestaurantPage() {
-  return <CmsPostListPage section="dulguun-restaurant" />;
+  return <CmsSinglePostPage section="dulguun-restaurant" />;
 }
