@@ -33,20 +33,20 @@ export const NAVIGATION_CARDS: NavCard[] = [
 
 export const navigationStyles = {
   section:
-    "w-full relative z-20 py-5 sm:py-7 md:py-9 bg-gradient-to-t from-black/80 via-black/40 to-transparent",
+    "w-full relative z-20 py-3 md:py-6 lg:py-8 bg-slate-950 border-t border-white/10",
 
-  grid: "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-5 max-w-6xl mx-auto px-3 sm:px-4 md:px-6",
+  grid: "flex flex-col gap-2 max-w-6xl mx-auto md:grid md:grid-cols-3 md:gap-4 lg:grid-cols-5 lg:gap-5",
 
-  link: "group min-h-[112px] sm:min-h-[132px] md:min-h-[152px] p-4 sm:p-5 rounded-2xl md:rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg shadow-black/20 hover:bg-white/20 hover:border-white/40 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col justify-between items-start",
+  link: "group flex min-h-[56px] flex-row items-center gap-3 rounded-xl border border-white/20 bg-white/10 p-3 shadow-lg shadow-black/20 backdrop-blur-xl transition-all duration-300 hover:border-white/40 hover:bg-white/20 active:scale-[0.98] md:min-h-[132px] md:flex-col md:items-start md:justify-between md:rounded-2xl md:p-5 md:hover:-translate-y-1 md:hover:shadow-xl lg:min-h-[152px] lg:rounded-3xl",
 
   iconWrapper:
-    "w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-xl bg-white/20 flex items-center justify-center transition-colors group-hover:bg-white/30",
+    "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/20 transition-colors group-hover:bg-white/30 md:h-11 md:w-11 md:rounded-xl lg:h-12 lg:w-12",
 
-  icon: "w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white",
+  icon: "h-5 w-5 text-white md:h-5 md:w-5 lg:h-6 lg:w-6",
 
   label:
-    "flex items-center justify-between w-full gap-2 text-xs sm:text-sm md:text-base font-semibold text-white leading-snug",
+    "flex min-w-0 flex-1 items-center justify-between gap-2 text-sm font-semibold leading-snug text-white md:w-full md:text-sm lg:text-base",
 
   arrow:
-    "w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0 text-white/70 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all",
+    "h-4 w-4 shrink-0 text-white/70 transition-all group-hover:text-white md:group-hover:translate-x-0.5 md:group-hover:-translate-y-0.5",
 };

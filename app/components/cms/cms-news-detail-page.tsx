@@ -78,7 +78,7 @@ export async function CmsNewsDetailPage({
             {moreImages.map((image, index) => (
               <div
                 key={`${image.url}-${index}`}
-                className="w-[280px] flex-none snap-center"
+                className="w-[min(280px,85vw)] flex-none snap-center"
               >
                 <img
                   src={image.url}

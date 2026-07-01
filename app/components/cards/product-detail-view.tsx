@@ -35,13 +35,13 @@ export function ProductDetailView({
 
       <div className="app-card grid grid-cols-1 gap-8 p-5 sm:p-6 lg:grid-cols-2">
         <div className="relative flex flex-col rounded-xl border border-slate-200 bg-slate-50 p-6">
-          <div className="flex min-h-[320px] flex-1 items-center justify-center">
+          <div className="flex min-h-[240px] flex-1 items-center justify-center sm:min-h-[320px]">
             <Image
               src={activeImage}
               alt={product.name}
               width={420}
               height={420}
-              className="h-[300px] w-auto object-contain transition-opacity duration-300"
+              className="h-auto max-h-[240px] w-auto max-w-full object-contain transition-opacity duration-300 sm:max-h-[300px]"
             />
           </div>
           {galleryImages.length > 1 ? (

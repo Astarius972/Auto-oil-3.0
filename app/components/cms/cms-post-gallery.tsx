@@ -13,7 +13,7 @@ export function CmsPostGallery({ images }: CmsPostGalleryProps) {
         <img
           src={featured.url}
           alt={featured.alt}
-          className="h-auto w-full rounded-xl"
+          className="h-auto max-h-[70vh] w-full rounded-xl object-contain"
         />
       </div>
 
@@ -23,7 +23,7 @@ export function CmsPostGallery({ images }: CmsPostGalleryProps) {
             {rest.map((image, index) => (
               <div
                 key={`${image.url}-${index}`}
-                className="w-[300px] flex-none snap-center"
+                className="w-[min(300px,85vw)] flex-none snap-center"
               >
                 <img
                   src={image.url}

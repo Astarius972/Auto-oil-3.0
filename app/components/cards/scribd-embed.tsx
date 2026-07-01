@@ -27,7 +27,7 @@ export function ScribdEmbed({
         <iframe
           src={embedUrl}
           title={title}
-          className="h-[600px] w-full border-0"
+          className="h-[50vh] min-h-[320px] w-full border-0 sm:h-[600px]"
           allowFullScreen
         />
       </div>

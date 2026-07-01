@@ -38,67 +38,71 @@ export const CircularTestimonialsDemo = () => {
   const activeItem = testimonials[activeIndex];
 
   return (
-    <section className="relative col-span-12 h-full min-h-full w-full overflow-hidden bg-slate-950">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="absolute inset-0 h-full w-full bg-slate-950"
-        >
-          <img
-            src={activeItem.src}
-            className="h-full w-full object-cover"
-            alt={activeItem.name}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
+    <section className="relative w-full shrink-0 bg-slate-950">
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-slate-950 md:aspect-[21/9]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="absolute inset-0"
+          >
+            <img
+              src={activeItem.src}
+              alt={activeItem.name}
+              className="h-full w-full object-contain object-center"
+            />
 
-          <div className="absolute bottom-[26%] left-6 z-10 max-w-xl drop-shadow-lg sm:left-10">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/70 sm:text-sm">
-              {activeItem.designation}
-            </p>
-            <h3 className="text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:text-5xl">
-              {activeItem.name}
-            </h3>
-          </div>
-        </motion.div>
-      </AnimatePresence>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
 
-      {/* Prev / Next controls */}
-      <div className="absolute top-1/2 z-20 flex w-full -translate-y-1/2 justify-between px-4 sm:px-8">
-        <button
-          onClick={() => paginate(-1)}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all hover:scale-105 hover:bg-white/20 sm:h-12 sm:w-12"
-          aria-label="Өмнөх зураг"
-        >
-          <FaArrowLeft />
-        </button>
-        <button
-          onClick={() => paginate(1)}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all hover:scale-105 hover:bg-white/20 sm:h-12 sm:w-12"
-          aria-label="Дараагийн зураг"
-        >
-          <FaArrowRight />
-        </button>
-      </div>
+            <div className="absolute inset-x-0 bottom-0 z-10 px-4 pb-4 pt-10 md:px-10 md:pb-8 md:pt-16">
+              <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/80 md:text-sm md:tracking-[0.18em]">
+                {activeItem.designation}
+              </p>
+              <h3 className="text-lg font-bold leading-snug tracking-tight text-white drop-shadow-md md:text-3xl lg:text-4xl">
+                {activeItem.name}
+              </h3>
 
-      {/* Slide indicators */}
-      <div className="absolute bottom-[18%] left-6 z-20 flex items-center gap-2 sm:left-10">
-        {testimonials.map((item, index) => (
+              <div className="mt-3 flex items-center gap-2">
+                {testimonials.map((item, index) => (
+                  <button
+                    key={item.src}
+                    type="button"
+                    onClick={() => setActiveIndex(index)}
+                    aria-label={`${index + 1}-р зураг`}
+                    aria-current={index === activeIndex}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      index === activeIndex
+                        ? "w-8 bg-white"
+                        : "w-3 bg-white/40 hover:bg-white/70"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="pointer-events-none absolute inset-y-0 left-0 right-0 z-20 flex items-center justify-between px-2 md:px-6">
           <button
-            key={item.src}
-            onClick={() => setActiveIndex(index)}
-            aria-label={`${index + 1}-р зураг`}
-            aria-current={index === activeIndex}
-            className={`h-1.5 rounded-full transition-all duration-300 ${
-              index === activeIndex
-                ? "w-8 bg-white"
-                : "w-3 bg-white/40 hover:bg-white/70"
-            }`}
-          />
-        ))}
+            type="button"
+            onClick={() => paginate(-1)}
+            className="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/40 text-sm text-white backdrop-blur-md transition-all hover:scale-105 hover:bg-black/55 md:h-11 md:w-11"
+            aria-label="Өмнөх зураг"
+          >
+            <FaArrowLeft />
+          </button>
+          <button
+            type="button"
+            onClick={() => paginate(1)}
+            className="pointer-events-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/20 bg-black/40 text-sm text-white backdrop-blur-md transition-all hover:scale-105 hover:bg-black/55 md:h-11 md:w-11"
+            aria-label="Дараагийн зураг"
+          >
+            <FaArrowRight />
+          </button>
+        </div>
       </div>
     </section>
   );

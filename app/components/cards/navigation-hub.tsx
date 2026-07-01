@@ -5,7 +5,7 @@ import { NAVIGATION_CARDS, navigationStyles } from "./navigation-data";
 export function NavigationHub() {
   return (
     <section className={navigationStyles.section}>
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="container-page max-w-6xl">
         <div className={navigationStyles.grid}>
           {NAVIGATION_CARDS.map((card) => {
             const Icon = card.icon;

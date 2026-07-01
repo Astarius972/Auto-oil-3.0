@@ -21,14 +21,14 @@ export default function ProductCard({
     <article className="app-card app-card-hover group flex h-full w-full flex-col overflow-hidden">
       <Link
         href={`/products/${id}`}
-        className="relative flex min-h-[220px] items-center justify-center overflow-hidden rounded-t-2xl bg-slate-50 p-6"
+        className="relative flex min-h-[180px] items-center justify-center overflow-hidden rounded-t-2xl bg-slate-50 p-4 sm:min-h-[220px] sm:p-6"
       >
         <Image
           src={imageUrl}
           alt={name}
           width={300}
           height={300}
-          className="mx-auto h-[180px] w-auto object-contain transition-transform duration-500 group-hover:scale-105"
+          className="mx-auto h-[140px] w-auto max-w-full object-contain transition-transform duration-500 group-hover:scale-105 sm:h-[180px]"
         />
       </Link>
 
